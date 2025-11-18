@@ -48,10 +48,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/404" element={<Page404 />} />
         <Route path="/500" element={<Page500 />} />
-        <Route path="/" element={<NGlowKartPatientRegistration_CoreUI />} />
-        {/* <Route path="/" element={<SpinResultCard />} /> */}
-
-        
+        <Route path="/NGK-Registration-Form" element={<NGlowKartPatientRegistration_CoreUI />} />
+        {/* <Route path="/" element={<SpinResultCard />} /> */}    
         <Route path="/onboard-success" element={<OnboardSuccess />} />
 
         {/* Protected routes - catch all */}
