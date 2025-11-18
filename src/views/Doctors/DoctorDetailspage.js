@@ -44,7 +44,6 @@ import { GetClinicBranches, handleDeleteToggle } from '../Doctors/DoctorAPI'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { getCustomerByMobile } from '../customerManagement/CustomerManagementAPI'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { COLORS } from '../../Constant/Themes'

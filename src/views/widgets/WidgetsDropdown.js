@@ -202,7 +202,7 @@ const WidgetsDropdown = (props) => {
 
         // If you only want unique patient count
         const uniquePatients = [...new Set(patientIds)]
-        setTotalPatients(uniquePatients.length)
+        // setTotalPatients(uniquePatients.length)
       } catch (error) {
         console.error('Error fetching patients:', error)
       }
@@ -613,13 +613,6 @@ const WidgetsDropdown = (props) => {
                 onBack={() => setShowAppointments(false)}
               />
             )} */}
-            <CButton
-              className="mx-2"
-              style={{ backgroundColor: 'var(--color-black)', color: COLORS.white }}
-              onClick={() => navigate('/in-progress')}
-            >
-              Active Appointments
-            </CButton>
           </div>
         </div>
 

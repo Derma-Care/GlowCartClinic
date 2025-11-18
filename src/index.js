@@ -14,6 +14,9 @@ import { attachInterceptors } from './Utils/Interceptors' // <-- interceptor fil
 import './views/Style/toastify.css'
 import { NavigationProvider } from './views/Usecontext/NavigationProvider'
 import { BrowserRouter } from 'react-router-dom'
+import NGlowKartPatientRegistration_CoreUI from './views/NGK/CustomerRrgistration/CustomerRegistration'
+import PrizePostDetails from './views/NGK/CustomerRrgistration/PrizePostDetails'
+import OnboardSuccess from './views/NGK/CustomerRrgistration/OnboardSuccess'
 function Root() {
   // attach interceptors once when app mounts
   // useEffect(() => {
@@ -42,6 +45,8 @@ function Root() {
                 }}
               />
               <App />
+              {/* <OnboardSuccess /> */}
+              {/* <NGlowKartPatientRegistration_CoreUI /> */}
             </HospitalProvider>
           </GlobalSearchProvider>
         </NavigationProvider>

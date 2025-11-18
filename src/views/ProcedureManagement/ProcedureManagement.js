@@ -1376,50 +1376,6 @@ const ServiceManagement = () => {
             <CRow className="mb-4">
               <CCol md={4}>
                 <h6>
-                  Category Name <span className="text-danger">*</span>
-                </h6>
-                <CFormSelect
-                  name="categoryName"
-                  value={newService.categoryId || ''}
-                  onChange={handleCategoryChange}
-                  disabled={modalMode === 'edit'}
-                >
-                  <option value="">Select a Category</option>
-                  {category?.map((cat) => (
-                    <option key={cat.categoryId} value={cat.categoryId}>
-                      {cat.categoryName}
-                    </option>
-                  ))}
-                </CFormSelect>
-                {errors.categoryName && (
-                  <CFormText className="text-danger">{errors.categoryName}</CFormText>
-                )}
-              </CCol>
-
-              <CCol md={4}>
-                <h6>
-                  Service Name <span className="text-danger">*</span>
-                </h6>
-                <CFormSelect
-                  name="serviceName"
-                  value={newService.serviceName || ''}
-                  onChange={handleServiceChange}
-                  disabled={modalMode === 'edit'}
-                >
-                  <option value="">Select Service</option>
-                  {serviceOptions.map((service) => (
-                    <option key={service.serviceId} value={service.serviceName}>
-                      {service.serviceName}
-                    </option>
-                  ))}
-                </CFormSelect>
-                {errors.serviceName && (
-                  <CFormText className="text-danger">{errors.serviceName}</CFormText>
-                )}
-              </CCol>
-
-              <CCol md={4}>
-                <h6>
                   Procedure Name <span className="text-danger">*</span>
                 </h6>
                 <CFormSelect
@@ -1501,38 +1457,12 @@ const ServiceManagement = () => {
                 )}
               </CCol>
 
-              <CCol md={4}>
-                <h6>
-                  Status <span className="text-danger">*</span>
-                </h6>
-                <CFormSelect name="status" value={newService.status || ''} onChange={handleChange}>
-                  <option value="">Select</option>
-                  <option value="Active">Active</option>
-                  <option value="InActive">Inactive</option>
-                </CFormSelect>
-                {errors.status && <CFormText className="text-danger">{errors.status}</CFormText>}
-              </CCol>
+          
             </CRow>
 
             {/* ---------------- CONSENT / FEES / TIME ---------------- */}
             <CRow className="mb-4">
-              <CCol md={4}>
-                <h6>
-                  Consent Form Type <span className="text-danger">*</span>
-                </h6>
-                <CFormSelect
-                  name="consentFormType"
-                  value={newService.consentFormType || ''}
-                  onChange={handleChange}
-                >
-                  <option value="">Select consentFormType</option>
-                  <option value="1">Generic ConsentForm</option>
-                  <option value="2">Procedure ConsentForm</option>
-                </CFormSelect>
-                {errors.consentFormType && (
-                  <CFormText className="text-danger">{errors.consentFormType}</CFormText>
-                )}
-              </CCol>
+           
 
               <CCol md={4}>
                 <h6>

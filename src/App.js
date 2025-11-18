@@ -14,6 +14,9 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 import ProtectedRoute from './components/ProtectedRoute'
 import { injectTheme } from './Constant/Themes'
+import OnboardSuccess from './views/NGK/CustomerRrgistration/OnboardSuccess'
+import NGlowKartPatientRegistration_CoreUI from './views/NGK/CustomerRrgistration/CustomerRegistration'
+import SpinResultCard from './views/NGK/CustomerRrgistration/SpinResultCard'
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
@@ -35,30 +38,33 @@ const App = () => {
   }, [storedTheme, isColorModeSet, setColorMode])
 
   return (
-   
-      <Suspense fallback={<CSpinner color="primary" variant="grow" />}>
-        <Routes>
-          {/* ✅ Lowercase redirect for consistency */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+    <Suspense fallback={<CSpinner color="primary" variant="grow" />}>
+      <Routes>
+        {/* ✅ Lowercase redirect for consistency */}
+        {/* <Route path="/" element={<Navigate to="/dashboard" replace />} /> */}
 
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/404" element={<Page404 />} />
-          <Route path="/500" element={<Page500 />} />
+        {/* Public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/404" element={<Page404 />} />
+        <Route path="/500" element={<Page500 />} />
+        <Route path="/" element={<NGlowKartPatientRegistration_CoreUI />} />
+        {/* <Route path="/" element={<SpinResultCard />} /> */}
 
-          {/* Protected routes - catch all */}
-          <Route
-            path="*"
-            element={
-              <ProtectedRoute>
-                <DefaultLayout />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Suspense>
-    
+        
+        <Route path="/onboard-success" element={<OnboardSuccess />} />
+
+        {/* Protected routes - catch all */}
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <DefaultLayout />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Suspense>
   )
 }
 

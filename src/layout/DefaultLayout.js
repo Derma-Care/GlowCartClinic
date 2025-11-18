@@ -9,6 +9,7 @@ const DefaultLayout = () => {
         <AppHeader />
         <div className="body flex-grow-1">
           <AppContent />
+           
         </div>
         <AppFooter />
       </div>

@@ -2,15 +2,15 @@
 // export let wifiUrl = 'localhost'
 //-------------------------
 // Dev
-// export let wifiUrl = 'http://3.6.119.57:9090'
+export let wifiUrl = 'http://3.6.119.57:9090'
 //----------------------------
 //GlowKart
-export let wifiUrl = 'http://35.154.152.61:9090'
+// export let wifiUrl = 'http://35.154.152.61:9090'
 //-----------------------------
 // Production
 // export let wifiUrl = 'https://api.aesthetech.life'
- 
- //-------------------------------
+
+//-------------------------------
 export const SBASE_URL = `${wifiUrl}/clinicadminpublicapis`
 export const BASE_URL = `${wifiUrl}/clinic-admin`
 export const MainAdmin_URL = `${wifiUrl}/admin`
