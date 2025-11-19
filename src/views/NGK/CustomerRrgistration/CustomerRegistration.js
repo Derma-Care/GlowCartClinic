@@ -62,7 +62,6 @@ export default function NGlowKartPatientRegistration_CoreUI() {
     spinRewardValue: '',
     spinRewardImage: '',
 
-    postedPrizeImage: '',
     prizePostScreenshot: '',
     followScreenshot: '',
     address: '',

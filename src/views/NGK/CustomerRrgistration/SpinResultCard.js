@@ -11,23 +11,104 @@ export default function SpinResultCard({ prize, onReset, setInstagram, form }) {
   const cardRef = useRef(null)
   const [loading, setLoading] = useState(false)
 
+  //   const handleShare = async () => {
+  //     try {
+  //       setLoading(true) // start loader immediately
+
+  //       await navigator.clipboard.writeText(
+  //         `I just won ${prize.option} an exciting gift from Neha's GlowKart! 🎁✨
+  // Thanks to Neha's GlowKart for the amazing surprises! 💖
+  // #GlowKartWinner #GlowKartGifts #LuckySpin`,
+  //       )
+
+  //       const canvas = await html2canvas(cardRef.current, { scale: 2, useCORS: true })
+  //       const image = canvas.toDataURL('image/png')
+
+  //       const link = document.createElement('a')
+  //       link.href = image
+  //       link.download = `NGlowKart-Prize-${prize.option}.png`
+  //       link.click()
+
+  //       showCustomToast(
+  //         '📸 Image saved & caption copied! 🚀 Opening Instagram…',
+  //         { autoClose: 2800 },
+  //         'top-left',
+  //       )
+
+  //       // ✨ Wait + show loader before redirecting
+  //       setTimeout(() => {
+  //         // const instaTab = window.open('https://instagram.com', '_blank')
+  //         // if (!instaTab) toast.error('⚠️ Enable popups to continue.')
+  //         setInstagram(true)
+  //         setLoading(false) // hide loader
+  //       }, 3000)
+  //     } catch (err) {
+  //       setLoading(false)
+  //       toast.error('❌ Something went wrong.')
+  //     }
+  //   }
+
   const handleShare = async () => {
     try {
-      setLoading(true) // start loader immediately
+      setLoading(true)
 
-      await navigator.clipboard.writeText(
-        `I just won ${prize.option} an exciting gift from Neha's GlowKart! 🎁✨
+      const caption = `I just won ${prize.option} an exciting gift from Neha's GlowKart! 🎁✨
 Thanks to Neha's GlowKart for the amazing surprises! 💖
-#GlowKartWinner #GlowKartGifts #LuckySpin`,
-      )
+#GlowKartWinner #GlowKartGifts #LuckySpin`
 
-      const canvas = await html2canvas(cardRef.current, { scale: 2, useCORS: true })
+      // ---------------------------
+      // 1. COPY CAPTION (with fallback)
+      // ---------------------------
+      try {
+        await navigator.clipboard.writeText(caption)
+        console.log('Clipboard: success')
+      } catch (err) {
+        console.warn('Clipboard API failed, using fallback', err)
+
+        // Fallback copy
+        const textarea = document.createElement('textarea')
+        textarea.value = caption
+        textarea.style.position = 'fixed'
+        textarea.style.opacity = '0'
+        document.body.appendChild(textarea)
+        textarea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textarea)
+      }
+
+      // ---------------------------
+      // 2. VALIDATE cardRef
+      // ---------------------------
+      if (!cardRef.current) {
+        setLoading(false)
+        toast.error('❌ Unable to capture image (ref missing).')
+        return
+      }
+
+      // ---------------------------
+      // 3. GENERATE IMAGE SAFELY
+      // ---------------------------
+      const canvas = await html2canvas(cardRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+      })
+
       const image = canvas.toDataURL('image/png')
 
+      console.log('Canvas generated successfully')
+
+      // ---------------------------
+      // 4. DOWNLOAD IMAGE (Safari / iOS Safe)
+      // ---------------------------
       const link = document.createElement('a')
       link.href = image
       link.download = `NGlowKart-Prize-${prize.option}.png`
+
+      document.body.appendChild(link)
       link.click()
+      document.body.removeChild(link)
 
       showCustomToast(
         '📸 Image saved & caption copied! 🚀 Opening Instagram…',
@@ -35,14 +116,26 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
         'top-left',
       )
 
-      // ✨ Wait + show loader before redirecting
+      // ---------------------------
+      // 5. DELAY & SHOW INSTAGRAM POPUP
+      // ---------------------------
       setTimeout(() => {
         const instaTab = window.open('https://instagram.com', '_blank')
         if (!instaTab) toast.error('⚠️ Enable popups to continue.')
         setInstagram(true)
-        setLoading(false) // hide loader
-      }, 5000)
+
+        // const a = document.createElement('a')
+        // a.href = 'https://www.instagram.com/'
+        // a.target = '_blank'
+        // a.rel = 'noopener noreferrer' // 🔥 prevents HTTP downgrade
+        // document.body.appendChild(a)
+        // a.click()
+        // document.body.removeChild(a)
+
+        setLoading(false)
+      }, 3000)
     } catch (err) {
+      console.error('🔥 handleShare error:', err)
       setLoading(false)
       toast.error('❌ Something went wrong.')
     }
@@ -66,7 +159,7 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
           border: 'none',
           background: 'linear-gradient(135deg, #ffe6f1, #ffd8ec)',
           boxShadow: '0 8px 30px rgba(255, 0, 102, 0.15)',
-          marginTop: '100px',
+          marginTop: '120px',
           backgroundImage: `url(${bg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -131,7 +224,7 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
             style={{
               textAlign: 'center',
               fontSize: 15,
-              marginTop: '10px',
+              marginTop: '15px',
               display: 'inline-block',
               padding: '5px 15px',
               backgroundColor: '#ff4f9a', // or any color for the strip
@@ -142,7 +235,9 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
             {form.fullName}
           </p>
 
-          <p style={{ textAlign: 'center', fontSize: 15, marginTop: '10px' }}>You Won:</p>
+          <p style={{ textAlign: 'center', fontSize: 15, marginTop: '5px', fontWeight: 'bold' }}>
+            You Won:
+          </p>
 
           {/* PRIZE DISPLAY */}
           {prize.src ? (
@@ -191,6 +286,7 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
               >
                 <img
                   src={prize.src}
+                  crossOrigin="anonymous"
                   alt="Prize"
                   style={{
                     width: '100%',
