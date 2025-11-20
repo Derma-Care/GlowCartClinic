@@ -26,6 +26,7 @@ import { verifyRegistrationCode } from '../APIs/verifyRegistrationCode'
 import { fileToBase64 } from '../Utills/FileToBase64'
 import { processFile } from '../Utills/fileUtils'
 import { UploadedPreview } from '../Utills/FileUpload'
+import { getAllProcedures } from '../APIs/procedureService'
 export default function NGlowKartPatientRegistration_CoreUI() {
   const today = new Date()
   const maxToday = today.toISOString().split('T')[0]
@@ -57,6 +58,22 @@ export default function NGlowKartPatientRegistration_CoreUI() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [verifyLoading, setVerifyLoading] = useState(false)
+  const [procedureOptions, setProcedureOptions] = useState([])
+
+  useEffect(() => {
+    async function fetchProcedures() {
+      const list = await getAllProcedures()
+
+      const formatted = list.map((item) => ({
+        value: item.procedureId,
+        label: item.procedureName,
+      }))
+
+      setProcedureOptions(formatted)
+    }
+
+    fetchProcedures()
+  }, [])
 
   const [form, setForm] = useState(() => {
     const saved = localStorage.getItem('saved_form')
@@ -99,24 +116,24 @@ export default function NGlowKartPatientRegistration_CoreUI() {
     localStorage.setItem('saved_form', JSON.stringify(safeForm))
   }, [form])
 
-  const procedureOptions = [
-    { value: 'botox', label: 'Botox' },
-    { value: 'chemical_peel', label: 'Chemical Peel' },
-    { value: 'laser_treatment', label: 'Laser Treatment' },
-    { value: 'fillers', label: 'Fillers' },
-    { value: 'microdermabrasion', label: 'Microdermabrasion' },
-    { value: 'prp_hair', label: 'PRP Hair Treatment' },
-    { value: 'facial', label: 'Facial Therapy' },
-    { value: 'pigmentation_treatment', label: 'Pigmentation Treatment' },
-    { value: 'acne_treatment', label: 'Acne Treatment' },
-    { value: 'skin_rejuvenation', label: 'Skin Rejuvenation' },
-    { value: 'tattoo_removal', label: 'Tattoo Removal' },
-    { value: 'body_contouring', label: 'Body Contouring' },
-    { value: 'derma_roller', label: 'Derma Roller' },
-    { value: 'lip_lightening', label: 'Lip Lightening' },
-    { value: 'skin_brightening', label: 'Skin Brightening' },
-    { value: 'other', label: 'Other (Not Listed)' }, // Custom option
-  ]
+  // const procedureOptions = [
+  //   { value: 'botox', label: 'Botox' },
+  //   { value: 'chemical_peel', label: 'Chemical Peel' },
+  //   { value: 'laser_treatment', label: 'Laser Treatment' },
+  //   { value: 'fillers', label: 'Fillers' },
+  //   { value: 'microdermabrasion', label: 'Microdermabrasion' },
+  //   { value: 'prp_hair', label: 'PRP Hair Treatment' },
+  //   { value: 'facial', label: 'Facial Therapy' },
+  //   { value: 'pigmentation_treatment', label: 'Pigmentation Treatment' },
+  //   { value: 'acne_treatment', label: 'Acne Treatment' },
+  //   { value: 'skin_rejuvenation', label: 'Skin Rejuvenation' },
+  //   { value: 'tattoo_removal', label: 'Tattoo Removal' },
+  //   { value: 'body_contouring', label: 'Body Contouring' },
+  //   { value: 'derma_roller', label: 'Derma Roller' },
+  //   { value: 'lip_lightening', label: 'Lip Lightening' },
+  //   { value: 'skin_brightening', label: 'Skin Brightening' },
+  //   { value: 'other', label: 'Other (Not Listed)' }, // Custom option
+  // ]
 
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(
@@ -140,12 +157,12 @@ export default function NGlowKartPatientRegistration_CoreUI() {
   // }, [])
 
   const handleProcedureChange = (selected) => {
-    // Update form with selected values (array of values)
     setForm((prev) => ({
       ...prev,
-      serviceType: selected.map((s) => s.value),
+      serviceType: selected.map((item) => item.label), // ✔ store labels
     }))
   }
+
   const showOtherInput = form.serviceType?.includes('other')
   function handleChange(e) {
     const { name, value, type, checked } = e.target
@@ -260,7 +277,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
       clinicName: form.clinicName,
       clinicCityArea: form.clinicCityArea,
       dateOfLastVisit: form.dateOfLastVisit,
-      serviceType: form.serviceType[0],
+      serviceType: form.serviceType,
       blood: form.Blood,
       registrationCode: form.registraionCode,
       referBy: form.referBy,
@@ -880,10 +897,11 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                             isMulti
                             placeholder="Select services received..."
                             onChange={handleProcedureChange}
-                            value={procedureOptions.filter((opt) =>
-                              form.serviceType?.includes(opt.value),
+                            value={procedureOptions.filter(
+                              (opt) => form.serviceType?.includes(opt.label), // ✔ match using label
                             )}
                           />
+
                           {errors.serviceType && (
                             <p
                               style={{
