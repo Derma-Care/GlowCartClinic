@@ -437,7 +437,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       width: '100%',
                       minHeight: '70vh',
                       padding: '20px 0',
-                      background: '#fff',
+                   
                     }}
                   >
                     <div
