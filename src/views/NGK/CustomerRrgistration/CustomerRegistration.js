@@ -24,6 +24,8 @@ import LoadingIndicator from '../../../Utils/loader'
 import { registerCustomer } from '../APIs/registerCustomerApi'
 import { verifyRegistrationCode } from '../APIs/verifyRegistrationCode'
 import { fileToBase64 } from '../Utills/FileToBase64'
+import { processFile } from '../Utills/fileUtils'
+import { UploadedPreview } from '../Utills/FileUpload'
 export default function NGlowKartPatientRegistration_CoreUI() {
   const today = new Date()
   const maxToday = today.toISOString().split('T')[0]
@@ -39,40 +41,63 @@ export default function NGlowKartPatientRegistration_CoreUI() {
   const dummyAadhar = '123456789012' // Change as needed
   const regCode = 'NGK-202517' // Change as needed
   const [winnerPrize, setWinnerPrize] = useState(null)
-  const [showWheel, setShowWheel] = useState(true)
-  const [instagram, setInstagram] = useState(false)
-  const [isRegistration, setIsRegistration] = useState(true)
+  const [showWheel, setShowWheel] = useState(() =>
+    localStorage.getItem('step_showWheel') === 'false' ? false : true,
+  )
+
+  const [instagram, setInstagram] = useState(
+    () => localStorage.getItem('step_instagram') === 'true',
+  )
+
+  const [isRegistration, setIsRegistration] = useState(() =>
+    localStorage.getItem('step_isRegistration') === 'false' ? false : true,
+  )
+
   const [spinWhell, setSpinWhell] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [verifyLoading, setVerifyLoading] = useState(false)
 
-  const [form, setForm] = useState({
-    fullName: '',
-    mobile: '',
-    email: '',
-    city: '',
-    dob: '',
-    confirmedVisit: false,
-    clinicName: '',
-    clinicCityArea: '',
-    dateOfLastVisit: '',
-    serviceType: '',
-    Blood: '',
-    registraionCode: '',
-    referBy: '',
-    Aadhar: '',
-    prescription: '',
+  const [form, setForm] = useState(() => {
+    const saved = localStorage.getItem('saved_form')
+    return saved
+      ? JSON.parse(saved)
+      : {
+          fullName: '',
+          mobile: '',
+          email: '',
+          city: '',
+          dob: '',
+          confirmedVisit: false,
+          clinicName: '',
+          clinicCityArea: '',
+          dateOfLastVisit: '',
+          serviceType: '',
+          Blood: '',
+          registraionCode: '',
+          referBy: '',
+          Aadhar: '',
+          prescription: '',
+          referBy: "Neha's GlowKart",
 
-    // ⭐ ADD THESE TWO NEW FIELDS
-    spinRewardId: '',
-    spinRewardValue: '',
-    spinRewardImage: '',
+          spinRewardId: '',
+          spinRewardValue: '',
+          spinRewardImage: '',
 
-    prizePostScreenshot: '',
-    followScreenshot: '',
-    address: '',
+          prizePostScreenshot: '',
+          followScreenshot: '',
+          address: '',
+        }
   })
+
+  useEffect(() => {
+    const safeForm = { ...form }
+
+    // ❌ Remove large fields BEFORE saving
+    delete safeForm.prescription
+
+    localStorage.setItem('saved_form', JSON.stringify(safeForm))
+  }, [form])
 
   const procedureOptions = [
     { value: 'botox', label: 'Botox' },
@@ -94,7 +119,9 @@ export default function NGlowKartPatientRegistration_CoreUI() {
   ]
 
   const [errors, setErrors] = useState({})
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState(
+    () => localStorage.getItem('step_submitted') === 'true',
+  )
 
   function calculateAge(dobStr) {
     if (!dobStr) return 0
@@ -239,6 +266,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
       referBy: form.referBy,
       aadharNumber: form.Aadhar,
       prescription: form.prescription, // File or text
+      referBy: form.referBy,
     }
 
     try {
@@ -265,6 +293,22 @@ export default function NGlowKartPatientRegistration_CoreUI() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem('step_isRegistration', isRegistration)
+  }, [isRegistration])
+
+  useEffect(() => {
+    localStorage.setItem('step_submitted', submitted)
+  }, [submitted])
+
+  useEffect(() => {
+    localStorage.setItem('step_showWheel', showWheel)
+  }, [showWheel])
+
+  useEffect(() => {
+    localStorage.setItem('step_instagram', instagram)
+  }, [instagram])
 
   console.log('instagram :: ', instagram)
   console.log('instagram :: ', form)
@@ -303,7 +347,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
           }}
         >
           {/* HEADER */}
-          <div className="d-flex align-items-start gap-3 mb-4">
+          <div className="d-flex align-items-start gap-3 mb-2">
             <img
               src={DermaCareLogo}
               alt="logo"
@@ -394,6 +438,8 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                               spinRewardImage: winner.src,
                             }))
 
+                            localStorage.setItem('saved_winnerPrize', JSON.stringify(winner))
+
                             setWinnerPrize(winner)
                             setShowWheel(false) // HIDE WHEEL
                           }}
@@ -437,7 +483,6 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       width: '100%',
                       minHeight: '70vh',
                       padding: '20px 0',
-                   
                     }}
                   >
                     <div
@@ -454,7 +499,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       <h3
                         style={{
                           fontSize: 20,
-                          marginBottom: 14,
+
                           fontWeight: 700,
                           color: '#d81b60',
                           textAlign: 'center',
@@ -867,36 +912,51 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                             Upload your last visit bill or prescription{' '}
                             <span className="text-danger">*</span>
                           </CFormLabel>
-
-                          <label
+                          <div
                             style={{
-                              border: '2px dashed #ff95c9',
-                              borderRadius: 12,
-                              padding: '18px',
-                              width: '100%',
-                              textAlign: 'center',
-                              display: 'block',
-                              cursor: 'pointer',
-                              background: '#fff8fc',
-                              color: '#ff2e85',
-                              fontWeight: '500',
-                              fontSize: 15,
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              gap: '10px',
+                              alignContent: 'center',
+                              alignItems: 'center',
                             }}
                           >
-                            📁 Tap to upload Prescription / Bill
-                            <input
-                              type="file"
-                              accept="image/*, application/pdf"
-                              onChange={async (e) => {
-                                const file = e.target.files[0]
-                                if (!file) return
-
-                                const base64 = await fileToBase64(file)
-                                updateForm('prescription', base64)
+                            <label
+                              style={{
+                                border: '2px dashed #ff95c9',
+                                borderRadius: 12,
+                                padding: '18px',
+                                width: '100%',
+                                textAlign: 'center',
+                                display: 'block',
+                                cursor: 'pointer',
+                                background: '#fff8fc',
+                                color: '#ff2e85',
+                                fontWeight: '500',
+                                fontSize: 15,
                               }}
-                              style={{ display: 'none' }}
-                            />
-                          </label>
+                            >
+                              📁 Tap to upload Prescription / Bill
+                              <input
+                                type="file"
+                                accept="image/*, application/pdf"
+                                onChange={async (e) => {
+                                  const file = e.target.files[0]
+                                  if (!file) return
+
+                                  try {
+                                    const base64 = await processFile(file)
+                                    updateForm('prescription', base64)
+                                  } catch (err) {
+                                    alert(err.message)
+                                    e.target.value = ''
+                                  }
+                                }}
+                                style={{ display: 'none' }}
+                              />
+                            </label>
+                            <UploadedPreview src={form.prescription} />
+                          </div>
                         </div>
                         <small style={{ color: '#888', display: 'block' }}>
                           Accepted formats: PDF, JPG, JPEG, PNG
@@ -922,7 +982,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                     <CCol md={12} className="mt-3 d-flex justify-content-end">
                       <CButton
                         style={{ background: '#ff4f9a', color: '#fff' }}
-                        disabled={!form.confirmedVisit}
+                        disabled={!form.confirmedVisit || loading}
                         type="submit"
                       >
                         {loading ? 'Submitting...' : 'Submit'}
