@@ -279,6 +279,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
     if (!/^\d{12}$/.test(form.Aadhar)) e.Aadhar = 'Enter a valid 12-digit Aadhaar number'
 
     if (!form.dob) e.dob = 'Date of birth required'
+    if (!form.gender) e.gender = 'gender required'
     else if (calculateAge(form.dob) < 18) e.dob = 'Must be at least 18 years old'
 
     if (form.serviceStatus == '1') {
@@ -784,12 +785,12 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       <CFormLabel>Gender</CFormLabel>
                       <CFormSelect name="gender" value={form.gender} onChange={handleChange}>
                         <option value="">Select Gender</option>
-                        <option value="A+">Male</option>
-                        <option value="A-">Female</option>
-                        <option value="B+">Others</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
                       </CFormSelect>
 
-                      {errors.dob && <p style={{ color: '#ff2e85' }}>{errors.dob}</p>}
+                      {errors.gender && <p style={{ color: '#ff2e85' }}>{errors.gender}</p>}
                     </CCol>
                     <CCol md={4}>
                       <CFormLabel>
