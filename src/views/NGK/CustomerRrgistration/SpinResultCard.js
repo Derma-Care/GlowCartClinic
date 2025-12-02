@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { CCard, CCardBody, CButton } from '@coreui/react'
 import html2canvas from 'html2canvas'
-import DermaCareLogo from '../../../assets/images/logoN.png'
+import DermaCareLogo from '../../../assets/images/logoP.png'
 import bg from '../../../assets/images/bg.png'
 import { showCustomToast } from '../../../Utils/Toaster'
 import { toast } from 'react-toastify'

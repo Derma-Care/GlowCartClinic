@@ -71,25 +71,25 @@ export const HospitalProvider = ({ children }) => {
   }, [selectedHospital])
 
   // Fetch hospital details
-  const fetchHospital = useCallback(async (id) => {
-    // ✅ also update permissions on refresh or hospital change
+  // const fetchHospital = useCallback(async (id) => {
+  //   // ✅ also update permissions on refresh or hospital change
 
-    if (!id) return
-    setLoading(true)
-    try {
-      const res = await http.get(`/getClinic/${id}`)
-      if (res.status === 200 && res.data) {
-        setSelectedHospital(res.data)
-      }
-      return res.data // ✅ return data here
-      console.log(res.data)
-    } catch (err) {
-      console.error(err)
-      setErrorMessage('Error fetching hospital data.')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  //   if (!id) return
+  //   setLoading(true)
+  //   try {
+  //     const res = await http.get(`/getClinic/${id}`)
+  //     if (res.status === 200 && res.data) {
+  //       setSelectedHospital(res.data)
+  //     }
+  //     return res.data // ✅ return data here
+  //     console.log(res.data)
+  //   } catch (err) {
+  //     console.error(err)
+  //     setErrorMessage('Error fetching hospital data.')
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }, [])
 
  
 
@@ -114,12 +114,12 @@ export const HospitalProvider = ({ children }) => {
     async (id = hospitalId) => {
       if (!id) return
       setHydrated(false)
-      await fetchHospital(id)
+      // await fetchHospital(id)
     
       // await fetchSubServices()
       setHydrated(true)
     },
-    [hospitalId, fetchHospital,],
+    [hospitalId,],
   )
 
   // Auto-fetch on hospitalId change
@@ -155,7 +155,7 @@ export const HospitalProvider = ({ children }) => {
         setNotificationCount,
         fetchAllData,
    
-        fetchHospital,
+      
         // fetchSubServices,
         fetchPermissions, // expose for manual calls (like after login)
       }}

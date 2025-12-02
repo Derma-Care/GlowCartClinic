@@ -1,7 +1,8 @@
 import React from 'react'
 import '../CSS/OnboardingStepsCard.css' // <-- optional if you want clean CSS
+import { Button } from 'bootstrap'
 
-export default function OnboardingStepsCard() {
+export default function OnboardingStepsCard({ setVisible }) {
   const steps = [
     {
       number: '1',
@@ -32,8 +33,14 @@ export default function OnboardingStepsCard() {
   return (
     <div>
       <div className="header">
-        <span className="star">✨</span>
-        <h2>How Neha’s GlowKart Onboarding Works</h2>
+        <div className='d-flex gap-4 justify-content-center align-content-center align-items-center'> 
+          <span className="star">✨</span>
+          <h2>How Neha’s GlowKart Onboarding Works</h2>
+        </div>
+        {/* <Button>X</Button> */}
+        <button onClick={() => setVisible(false)} className="close-btn">
+          ✖
+        </button>
       </div>
 
       {steps.map((step, index) => (
@@ -51,9 +58,10 @@ export default function OnboardingStepsCard() {
         </div>
       ))}
 
-      <div className="delivery-box justify-content-center text-center fw-bold">
-        🚚 <span>Your gift will be delivered within 7 days after completion.</span>
-      </div>
+    <div className="delivery-box justify-content-center text-center fw-bold">
+  🚚 <span className="blink-text">Your gift will be delivered within 7 days after completion.</span>
+</div>
+
     </div>
   )
 }

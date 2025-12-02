@@ -131,3 +131,10 @@ label:hover {
   transform: translateY(0px) scale(0.97);
   box-shadow: 0 4px 10px rgba(255, 46, 133, 0.3);
 }
+.label-gradient {
+  display: inline-block;
+  background: linear-gradient(to right, #e0e0e0, #ffffff);
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-weight: 600;
+}

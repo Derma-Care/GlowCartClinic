@@ -10,7 +10,7 @@ import {
   CAlert,
   CFormSelect,
 } from '@coreui/react'
-import DermaCareLogo from '../../../assets/images/logoN.png'
+import DermaCareLogo from '../../../assets/images/logoP.png'
 import '../CustomerRrgistration/Register.css'
 import SpinWheel from './SpinWheel'
 import SpinResultCard from './SpinResultCard'
@@ -479,7 +479,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                   width: 60,
                   height: 60,
                   borderRadius: 12,
-                  objectFit: 'cover',
+                  objectFit: 'fill',
                   border: '1px solid #eee',
                 }}
               />
@@ -733,7 +733,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                   <CRow className="g-4 mt-2">
                     {/* Full Name + Mobile */}
                     <CCol md={6}>
-                      <CFormLabel>
+                      <CFormLabel className="label-gradient">
                         Full Name (As Per Aadhaar Crad) <span className="text-danger">*</span>
                       </CFormLabel>
                       <CFormInput
@@ -754,7 +754,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                     </CCol>
 
                     <CCol md={6}>
-                      <CFormLabel>
+                      <CFormLabel className="label-gradient">
                         Mobile Number <span className="text-danger">*</span>
                       </CFormLabel>
                       <CFormInput
@@ -781,8 +781,8 @@ export default function NGlowKartPatientRegistration_CoreUI() {
 
                     {/* DOB + City */}
 
-                    <CCol md={4}>
-                      <CFormLabel>Gender</CFormLabel>
+                    <CCol md={6}>
+                      <CFormLabel className="label-gradient">Gender</CFormLabel>
                       <CFormSelect name="gender" value={form.gender} onChange={handleChange}>
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
@@ -792,8 +792,8 @@ export default function NGlowKartPatientRegistration_CoreUI() {
 
                       {errors.gender && <p style={{ color: '#ff2e85' }}>{errors.gender}</p>}
                     </CCol>
-                    <CCol md={4}>
-                      <CFormLabel>
+                    <CCol md={6}>
+                      <CFormLabel className="label-gradient">
                         Date of birth <span className="text-danger">*</span>
                       </CFormLabel>
 
@@ -816,8 +816,34 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       {errors.dob && <p style={{ color: '#ff2e85' }}>{errors.dob}</p>}
                     </CCol>
 
-                    <CCol md={4}>
-                      <CFormLabel>
+                    {/* Email + Blood */}
+                    <CCol md={6}>
+                      <CFormLabel className="label-gradient">Email (Optional)</CFormLabel>
+                      <CFormInput
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder="Enter Email"
+                      />
+                    </CCol>
+
+                    <CCol md={6}>
+                      <CFormLabel className="label-gradient">Blood Group (Optional)</CFormLabel>
+                      <CFormSelect name="blood" value={form.blood} onChange={handleChange}>
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                      </CFormSelect>
+                    </CCol>
+
+                    <CCol md={6}>
+                      <CFormLabel className="label-gradient">
                         City <span className="text-danger">*</span>
                       </CFormLabel>
                       <CFormInput
@@ -836,34 +862,8 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                         </p>
                       )}
                     </CCol>
-
-                    {/* Email + Blood */}
                     <CCol md={6}>
-                      <CFormLabel>Email (Optional)</CFormLabel>
-                      <CFormInput
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="Enter Email"
-                      />
-                    </CCol>
-
-                    <CCol md={6}>
-                      <CFormLabel>Blood Group (Optional)</CFormLabel>
-                      <CFormSelect name="blood" value={form.blood} onChange={handleChange}>
-                        <option value="">Select Blood Group</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                      </CFormSelect>
-                    </CCol>
-                    <CCol md={12}>
-                      <CFormLabel>
+                      <CFormLabel className="label-gradient">
                         Aadhaar Card Number <span className="text-danger">*</span>
                       </CFormLabel>
 
@@ -907,7 +907,11 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           {errors.Aadhar}
                         </p>
                       )}
-                      <div style={{ marginTop: '15px' }}>
+
+                      {/* Error */}
+                    </CCol>
+                    <CCol md={12}>
+                      <div>
                         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                           <input
                             type="checkbox"
@@ -941,8 +945,6 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           </p>
                         )}
                       </div>
-
-                      {/* Error */}
                     </CCol>
 
                     {/* Consent */}
@@ -1032,7 +1034,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                     {form.serviceStatus === '1' && (
                       <>
                         <CCol md={6}>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Clinic Name <span className="text-danger">*</span>
                           </CFormLabel>
                           <CFormInput
@@ -1053,7 +1055,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                         </CCol>
 
                         <CCol md={6}>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Clinic Area <span className="text-danger">*</span>
                           </CFormLabel>
                           <CFormInput
@@ -1074,7 +1076,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                         </CCol>
 
                         <CCol md={6}>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Last Visit <span className="text-danger">*</span>
                           </CFormLabel>
 
@@ -1101,7 +1103,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                         </CCol>
 
                         <CCol md={6}>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Service Availed <span className="text-danger">*</span>
                           </CFormLabel>
                           <Select
@@ -1129,7 +1131,9 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           {/* Other input */}
                           {showOtherInput && (
                             <div style={{ marginTop: 10 }}>
-                              <CFormLabel>Specify Other Service</CFormLabel>
+                              <CFormLabel className="label-gradient">
+                                Specify Other Service
+                              </CFormLabel>
                               <CFormInput
                                 placeholder="Enter Service Name"
                                 value={form.otherServiceName || ''}
@@ -1141,7 +1145,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           )}
                         </CCol>
                         <div>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Upload your last visit receipt <span className="text-danger">*</span>
                           </CFormLabel>
                           <div
@@ -1210,7 +1214,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       <>
                         {/* Category Dropdown */}
                         <CCol md={6}>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Select Category <span className="text-danger">*</span>
                           </CFormLabel>
                           <CFormSelect
@@ -1238,7 +1242,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
 
                         {/* Problem or Procedure */}
                         <CCol md={6}>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Your Concern / Procedure <span className="text-danger">*</span>
                           </CFormLabel>
 
@@ -1251,7 +1255,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                               { value: 'other', label: 'Others' }, // add one clean version
                             ]}
                             isMulti
-                            placeholder="Select your concerns or procedures..."
+                            placeholder="Select your concerns/procedures..."
                             value={[
                               ...procedureOptions.filter((opt) =>
                                 form.problemDescription?.includes(opt.label),
@@ -1278,7 +1282,9 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           {/* Show Other input */}
                           {form.problemDescription?.includes('other') && (
                             <div style={{ marginTop: 10 }}>
-                              <CFormLabel>Specify Other Concern</CFormLabel>
+                              <CFormLabel className="label-gradient">
+                                Specify Other Concern
+                              </CFormLabel>
                               <CFormInput
                                 placeholder="Enter your concern"
                                 value={form.otherServiceName}
@@ -1295,7 +1301,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
 
                         {/* Skin Tone */}
                         <CCol md={6}>
-                          <CFormLabel>
+                          <CFormLabel className="label-gradient">
                             Your Skin Tone <span className="text-danger">*</span>
                           </CFormLabel>
                           <CFormInput
@@ -1332,7 +1338,9 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                         </CCol> */}
 
                         <CCol md={6}>
-                          <CFormLabel>Upload Photo (Optional)</CFormLabel>
+                          <CFormLabel className="label-gradient">
+                            Upload Photo (Optional)
+                          </CFormLabel>
                           <div
                             md={6}
                             style={{

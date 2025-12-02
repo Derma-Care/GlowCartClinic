@@ -29,7 +29,7 @@ export default function OnboardingStepsModal() {
         backdrop="static"
       >
         <CModalBody>
-          <OnboardingStepsCard />
+          <OnboardingStepsCard setVisible={setVisible} />
         </CModalBody>
       </CModal>
     </>

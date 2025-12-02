@@ -139,7 +139,7 @@ export const updateServiceData = async (subServiceId, hospitalId, serviceData) =
 
   try {
     const response = await http.put(
-      `/${updateService}/${hospitalId}/${subServiceId}`, //use 'id' here
+      `/${updateService}/${subServiceId}/${hospitalId}`, //use 'id' here
       serviceData,
       {
         headers: {
@@ -159,7 +159,7 @@ export const updateServiceData = async (subServiceId, hospitalId, serviceData) =
 export const deleteServiceData = async (serviceId, id) => {
   try {
     console.log('Service name:', serviceId)
-    const response = await http.delete(`/${deleteService}/${id}/${serviceId}`)
+    const response = await http.delete(`/${deleteService}/${serviceId}/${id}`)
 
     console.log('Service deleted successfully:', response.data)
     return response.data
