@@ -23,7 +23,7 @@ export default function SpinResultCard({ prize, onReset, setInstagram, form, use
 
       const caption = `I just won ${finalPrize.spinRewardValue} an exciting gift from Neha's GlowKart! 🎁✨
 Thanks to Neha's GlowKart for the amazing surprises! 💖
-#GlowKartWinner #GlowKartGifts #LuckySpin`
+#nkgderma #GlowKartWinner #GlowKartGifts #LuckySpin `
 
       // ---------------------------
       // 1. COPY CAPTION (with fallback)
@@ -324,6 +324,7 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
         <p style={{ marginTop: 6, fontSize: 13 }}>
           <strong>Note:</strong> After posting, take a screenshot — you'll upload it next.
         </p>
+        <p style={loaderStyles.desc}>[optional]</p>
       </div>
 
       {/* Animation Styles */}
@@ -344,7 +345,7 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
             src="https://cdn-icons-png.flaticon.com/512/174/174855.png"
             className="ig-icon"
             alt="instagram"
-            style={{ backgroundColor: 'white', padding: '2px', borderRadius: '10px' }}
+            style={{ backgroundColor: 'white', padding: '2px', borderRadius: '5px' }}
           />
           Share on Instagram
         </CButton>

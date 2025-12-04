@@ -1,3 +1,33 @@
+:root {
+  /* PRIMARY BRAND COLORS */
+  --ngk-primary: #3a3ea2;
+  --ngk-primary-light: #d1ebfa;
+
+  /* SECONDARY / ACCENT COLORS */
+  --ngk-accent-pink: #d2025b;
+  --ngk-accent-pink2: #a82e4c;
+  --ngk-accent-bg: #ffe6f5;
+
+  /* GRADIENTS */
+  --ngk-gradient-hero: linear-gradient(-270deg, #d2025b, #a82e4c);
+  --ngk-gradient-sub: linear-gradient(90deg, #d1ebfa, #3a3ea2);
+
+  /* BUTTON SHADOW / EFFECT COLORS */
+  --ngk-btn-shadow: rgba(255, 46, 133, 0.3);
+  --ngk-btn-shadow-hover: rgba(255, 46, 133, 0.45);
+
+  /* SCROLLBAR COLORS */
+  --scroll-track: #f0f0f0;
+  --scroll-thumb: #b5b5b5;
+  --scroll-thumb-hover: #888;
+
+  /* TEXT COLORS */
+  --ngk-text-dark: #444;
+
+  /* BACKDROP / OVERLAY */
+  --ngk-overlay: rgba(0, 0, 0, 0.55);
+}
+
 /* Chrome, Edge, Safari scrollbar */
 .thin-scroll::-webkit-scrollbar {
   width: 6px;
@@ -40,18 +70,18 @@
 
 /* PINK CHECKBOX (100% working for CoreUI) */
 .custom-checkbox .form-check-input {
-  accent-color: #3a3ea2 !important;
-  border: 2px solid #3a3ea2 !important;
+  accent-color: var(--ngk-accent-pink) !important;
+  border: 2px solid var(--ngk-accent-pink) !important;
   width: 18px;
   height: 18px;
 }
 .custom-checkbox .form-check-input:checked {
-  background-color: #3a3ea2 !important;
-  border-color: #3a3ea2 !important;
+  background-color: var(--ngk-accent-pink) !important;
+  border-color: var(--ngk-accent-pink) !important;
 }
 label:hover {
   background: #ffe6f5;
-  border-color: #3a3ea2;
+  border-color: var(--ngk-accent-pink);
 }
 .derma-bg {
   position: relative;
@@ -113,7 +143,7 @@ label:hover {
 }
 
 .derma-btn {
-  background-color: var(--ngk-primary, #3a3ea2) !important;
+  background-color: var(--ngk-primary, var(--ngk-accent-pink)) !important;
   color: white !important;
   border: none !important;
   transition: all 0.25s ease;
@@ -124,7 +154,7 @@ label:hover {
 .derma-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(255, 46, 133, 0.45);
-  background-color: #3a3ea2 !important; /* slightly lighter pink */
+  background-color: var(--ngk-accent-pink) !important; /* slightly lighter pink */
 }
 
 .derma-btn:active {
@@ -133,21 +163,21 @@ label:hover {
 }
 .label-gradient {
   display: inline-block;
-  background: linear-gradient(to right, #d1ebfa, #ffffff);
+  background: linear-gradient(to right, var(--ngk-accent-bg), #ffffff);
   padding: 1px 5px;
   border-radius: 2px;
   font-weight: 600;
 }
 
 .aadhaar-link {
-  color: #3a3ea2;
+  color: var(--ngk-accent-pink);
   cursor: pointer;
   font-weight: 600;
   text-decoration: underline;
 }
 
 .aadhaar-link:hover {
-  color: #3a3ea2;
+  color: var(--ngk-accent-pink);
 }
 
 /* Backdrop */
@@ -202,7 +232,8 @@ label:hover {
 }
 
 .aadhaar-close-btn:hover {
-  background: #3a3ea2;color: white;
+  background: var(--ngk-accent-pink);
+  color: white;
 }
 
 /* Nice fade-in animation */
@@ -217,7 +248,7 @@ label:hover {
   }
 }
 .gradient-text {
-  background: linear-gradient(-270deg,  #D2025B ,#A82E4C);
+  background: linear-gradient(-270deg, var(--ngk-accent-pink), #a82e4c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 32px;
@@ -225,7 +256,7 @@ label:hover {
 }
 
 .sub-gradient-text {
-  background: linear-gradient(90deg, #d1ebfa, #3a3ea2);
+  background: linear-gradient(90deg, #d1ebfa, var(--ngk-accent-pink));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 18px;

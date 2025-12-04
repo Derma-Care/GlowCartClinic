@@ -304,52 +304,68 @@ export default function PrizePostDetails({ form, setForm, onSubmit, userData }) 
             {/* FOLLOW US */}
             <div
               style={{
-                background: '#fff1f9',
-                padding: 18,
-                borderRadius: 14,
-                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 16,
                 marginBottom: 22,
-                border: '1px solid #ffd4ea',
               }}
             >
-              <p
+              {/* LEFT BOX */}
+              <div
                 style={{
-                  margin: 0,
-                  fontSize: 16,
-                  color: NGK_COLORS.primary,
-                  fontWeight: 700,
+                  flex: 1,
+                  background: '#fff1f9',
+                  padding: 18,
+                  borderRadius: 14,
+                  border: '1px solid #ffd4ea',
                 }}
               >
-                ⭐ Follow Us on Instagram
-              </p>
-            </div>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: 16,
+                    color: NGK_COLORS.primary,
+                    fontWeight: 700,
+                  }}
+                >
+                  ⭐ Follow Us on Instagram
+                </p>
+              </div>
 
-            <CButton
-              style={{
-                width: '100%',
-                background: NGK_COLORS.primary,
-                color: 'white',
-                padding: '12px 0',
-                borderRadius: 12,
-                marginBottom: 28,
-                fontWeight: '700',
-                fontSize: 16,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 10,
-                border: 'none',
-              }}
-              onClick={() =>
-                window.open('https://www.instagram.com/glowkaart?igsh=Yjc0MGF1bXJibW5p', '_blank')
-              }
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/174/174855.png"
-                style={{ width: 22, height: 22,backgroundColor:"white",padding:"4px",borderRadius:"5px" }}
-              />
-              Visit Instagram Profile
-            </CButton>
+              {/* RIGHT BUTTON */}
+              <CButton
+                style={{
+                  flexShrink: 0,
+                  background: NGK_COLORS.primary,
+                  color: 'white',
+                  padding: '12px 18px',
+                  borderRadius: 12,
+                  fontWeight: '700',
+                  fontSize: 16,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  border: 'none',
+                  height: 54,
+                }}
+                onClick={() =>
+                  window.open('https://www.instagram.com/ngkderma', '_blank')
+                }
+              >
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/174/174855.png"
+                  style={{
+                    width: 22,
+                    height: 22,
+                    backgroundColor: 'white',
+                    padding: 4,
+                    borderRadius: 5,
+                  }}
+                />
+                Visit Instagram Profile
+              </CButton>
+            </div>
 
             {/* STEP 3 */}
             <div style={{ marginBottom: 30 }}>
@@ -426,7 +442,7 @@ export default function PrizePostDetails({ form, setForm, onSubmit, userData }) 
                 disabled={loading}
                 onClick={handleSubmit}
               >
-                {loading ? 'Please wait...' : '✔ Submit & Complete Registration'}
+                {loading ? 'Please wait...' : 'Complete Registration'}
               </CButton>
             )}
           </div>

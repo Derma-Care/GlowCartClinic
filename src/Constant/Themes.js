@@ -61,6 +61,8 @@ export const compareSvg = [
   `,
 ]
 
+
+
 export const injectTheme = () => {
   const root = document.documentElement
   Object.entries(COLORS).forEach(([key, value]) => {

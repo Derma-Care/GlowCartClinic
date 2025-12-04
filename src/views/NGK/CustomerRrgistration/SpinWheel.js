@@ -88,6 +88,24 @@ export default function SpinWheel({ onResult, userData, setUserData }) {
           <div className="spinner"></div>
           <div style={loaderStyles.textBlock}>
             <p style={loaderStyles.text}>Loading wheel...</p>
+            <style>
+              {' '}
+              {`
+            .spinner {
+              width: 58px;
+              height: 58px;
+              border: 6px solid ${NGK_COLORS.primarySoft};
+              border-top-color: ${NGK_COLORS.primary};
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+          `}
+              {' '}
+            </style>
           </div>
         </div>
       </div>

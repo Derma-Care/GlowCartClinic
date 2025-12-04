@@ -36,7 +36,7 @@ export default function RegistrationSoon() {
             Soon you can register, <b>spin the wheel</b>, and win exclusive Neeha's GlowKart gifts
             &nbsp;
             <strong>
-              [Sephora, Charlotte Tilbury, Fenty Beauty, Mac, Benefits, Anastasia Beverly Hills,
+              [Sephora, Charlotte Tilbury, Fenty Beauty, Mac, Benefit, Anastasia Beverly Hills,
               Nykaa, Lakme, Faces Canada, Colour Bar, L'Oréal Paris, Blue Heaven, etc.]
             </strong>
             <br />

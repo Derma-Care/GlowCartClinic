@@ -511,8 +511,10 @@ export default function NGlowKartPatientRegistration_CoreUI() {
           <div className="header-container">
             {!spinWhell ? (
               <h4 className="m-0 fw-bold text-center w-100 gradient-text">Registration</h4>
-            ) : (
+            ) : !instagram ? (
               <h4 className="m-0 fw-bold text-center w-100 gradient-text">Spin and Win</h4>
+            ) : (
+              ''
             )}
             {/* <h4 className="m-0 fw-bold text-center w-100 gradient-text">Registration</h4> */}
             {/* <small className="sub-gradient-text">Registration</small> */}
@@ -613,7 +615,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                     )}
                   </>
                 ) : (
-                  <div className="w-100 mt-3">
+                  <div className="w-100  ">
                     {instagram ? (
                       <PrizePostDetails
                         userData={userData}
@@ -1384,7 +1386,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                               { value: 'other', label: 'Others' }, // add one clean version
                             ]}
                             isMulti
-                            placeholder="Select your concerns/procedures..."
+                            placeholder="your concerns/procedures..."
                             value={[
                               ...procedureOptions.filter((opt) =>
                                 form.problemDescription?.includes(opt.label),
