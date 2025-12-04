@@ -33,7 +33,8 @@ export default function RegistrationSoon() {
           <p className="rs-subtitle">
             We’re crafting a glowing experience just for you! <br />
             <br />
-            Soon you can register, <b>spin the wheel</b>, and win exclusive GlowKart gifts
+            Soon you can register, <b>spin the wheel</b>, and win exclusive Neeha's GlowKart gifts
+            &nbsp;
             <strong>
               [Sephora, Charlotte Tilbury, Fenty Beauty, Mac, Benefits, Anastasia Beverly Hills,
               Nykaa, Lakme, Faces Canada, Colour Bar, L'Oréal Paris, Blue Heaven, etc.]

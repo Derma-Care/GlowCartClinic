@@ -55,25 +55,45 @@
 
 /* Instagram Button */
 .rs-btn {
-  margin-top: 40px;
   background: #d2025b;
-  color: white;
-  padding: 16px 22px;
+  color: #fff;
+  padding: 14px 22px;
+  margin-top: 20px;
   border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   border: none;
-  cursor: pointer;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  animation: rsPulse 2s infinite ease-in-out;
+  box-shadow: 0 4px 12px rgba(255, 0, 128, 0.3);
 }
 
 .rs-btn-icon {
-  width: 26px;
+  width: 22px;
+  height: 22px;
   background: white;
   padding: 2px;
-  border-radius: 5px;
+  border-radius: 6px;
+}
+
+/* Glow Animation */
+@keyframes rsPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 0, 128, 0.4);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 0 18px rgba(255, 0, 128, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 0, 128, 0.4);
+  }
 }
 
 /* DESKTOP IMAGE */
@@ -117,15 +137,14 @@
   }
 
   /* MOBILE LOGO AFTER IMAGE */
-.rs-mobile-logo {
-  display: block !important;
-  width: 50%;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-}
-
+  .rs-mobile-logo {
+    display: block !important;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
 
   .rs-mobile-logo img {
     width: 100% !important;
@@ -153,5 +172,6 @@
     width: 100%;
     max-width: 330px;
     margin-top: 25px;
+    font-size: 14px;
   }
 }
