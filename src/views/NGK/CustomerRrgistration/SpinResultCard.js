@@ -320,25 +320,25 @@ Thanks to Neha's GlowKart for the amazing surprises! 💖
               <br />
               Please upload it on Instagram and paste the caption.
               <br />
-              After posting, take a screenshot and upload it on the next screen.
+              Also, please tag our Instagram page @ngkderma while posting.
             </p>
           </div>
 
           <style>
             {`
-        .spin-loader {
-          width: 65px;
-          height: 65px;
-          border: 6px solid #ffd4ec;
-          border-top-color: #D2025B;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}
+      .spin-loader {
+        width: 65px;
+        height: 65px;
+        border: 6px solid #ffd4ec;
+        border-top-color: #D2025B;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    `}
           </style>
         </div>
       )}
