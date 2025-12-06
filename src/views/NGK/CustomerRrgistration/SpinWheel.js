@@ -50,7 +50,7 @@ export default function SpinWheel({ onResult, userData, setUserData }) {
   const data = slices.map((item) => ({
     option: item.option,
     style: {
-      fontSize: item.option.length > 12 ? 12 : 16,
+      // fontSize: item.option.length > 12 ? 12 : 16,
       textAlign: 'center',
       whiteSpace: 'pre-line',
     },

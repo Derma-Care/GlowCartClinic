@@ -60,6 +60,16 @@ export default function NGlowKartPatientRegistration_CoreUI() {
   const [showConsentModal, setShowConsentModal] = useState(false)
   const [serviceStatusError, setServiceStatusError] = useState('')
 
+  const indianSkinTones = [
+    { value: 'Very Fair', label: 'Very Fair' },
+    { value: 'Fair', label: 'Fair' },
+    { value: 'Wheatish', label: 'Wheatish' },
+    { value: 'Medium', label: 'Medium' },
+    { value: 'Dusky', label: 'Dusky' },
+    { value: 'Dark', label: 'Dark' },
+    { value: 'other', label: 'Other' },
+  ]
+
   useEffect(() => {
     async function fetchProcedures() {
       const list = await getAllProcedures()
@@ -169,6 +179,8 @@ export default function NGlowKartPatientRegistration_CoreUI() {
       return
     }
   }
+
+  const serviceStatusRef = React.useRef(null)
 
   function calculateAge(dobStr) {
     if (!dobStr) return 0
@@ -357,9 +369,11 @@ export default function NGlowKartPatientRegistration_CoreUI() {
         item === 'other' ? form.otherServiceName : item,
       ),
       category: form.interestCategory,
-      skinTone: form.skinTone,
+      skinTone: form.skinTone === 'other' ? form.skinToneOther : form.skinTone,
       photo: form.samplePhoto,
       aadhaarConsent: form.aadhaarConsent,
+      userConsent: form.userConsent,
+      privacyConsent: form.privacyConsent,
     }
 
     console.log(form)
@@ -421,6 +435,14 @@ export default function NGlowKartPatientRegistration_CoreUI() {
 
     setServiceStatusError('') // ⭐ Clear when no missing consents
     setForm({ ...form, serviceStatus: status })
+    setTimeout(() => {
+      if (serviceStatusRef.current) {
+        serviceStatusRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
+      }
+    }, 200)
   }
 
   function cleanUserData(data) {
@@ -546,8 +568,6 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                               // border: '1px solid #eee',
                             }}
                           />
-
-                       
                         </div>
                         <div>
                           <h3 className="fw-bold" style={{ color: NGK_COLORS.primary }}>
@@ -562,8 +582,8 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                               margin: '0 auto',
                             }}
                           >
-                            Thanks for joining Neeha's Glow Kart!! Verification is underway. You can spin
-                            now, and rewards will be dispatched after successful verification.
+                            Thanks for joining Neeha's Glow Kart!! Verification is underway. You can
+                            spin now, and rewards will be dispatched after successful verification.
                           </p>
 
                           <div className="text-center mt-4">
@@ -889,7 +909,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       </CCol>
 
                       {/* Email + Blood */}
-                      <CCol md={6}>
+                      {/* <CCol md={6}>
                         <CFormLabel
                           className="label-gradient"
                           style={{ color: NGK_COLORS.primarySoft }}
@@ -902,9 +922,9 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           onChange={handleChange}
                           placeholder="Enter Email"
                         />
-                      </CCol>
+                      </CCol> */}
 
-                      <CCol md={6}>
+                      {/* <CCol md={6}>
                         <CFormLabel
                           className="label-gradient"
                           style={{ color: NGK_COLORS.primarySoft }}
@@ -922,7 +942,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           <option value="AB+">AB+</option>
                           <option value="AB-">AB-</option>
                         </CFormSelect>
-                      </CCol>
+                      </CCol> */}
 
                       <CCol md={6}>
                         <CFormLabel
@@ -1155,17 +1175,17 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                       )}
 
                       {/* Consent */}
-                      <CCol md={12}>
+                      <CCol md={12} ref={serviceStatusRef}>
                         <div className="d-flex justify-content-between">
                           <CFormLabel>
-                            Have you taken any dermatology related service [Botx, PRP, Laser,
+                            Have you taken any dermatology related service [Botox, PRP, Laser,
                             etc...] in the last 12 months?
                           </CFormLabel>
                         </div>
 
                         <div
                           style={{ display: 'flex', gap: '20px' }}
-                          className="d-flex justify-content-end"
+                          className="d-flex justify-content-center"
                         >
                           <CButton
                             style={{
@@ -1526,7 +1546,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                           </CCol>
 
                           {/* Skin Tone */}
-                          <CCol md={6}>
+                          {/* <CCol md={6}>
                             <CFormLabel
                               className="label-gradient"
                               style={{ color: NGK_COLORS.primarySoft }}
@@ -1547,6 +1567,60 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                               >
                                 {errors.skinTone}
                               </p>
+                            )}
+                          </CCol> */}
+
+                          <CCol md={6}>
+                            <CFormLabel
+                              className="label-gradient"
+                              style={{ color: NGK_COLORS.primarySoft }}
+                            >
+                              Your Skin Tone <span className="text-danger">*</span>
+                            </CFormLabel>
+
+                            <CFormSelect
+                              name="skinTone"
+                              value={form.skinTone}
+                              onChange={(e) => {
+                                const value = e.target.value
+                                handleChange(e)
+
+                                // If user selects "other", open input box & clear old value
+                                if (value === 'other') {
+                                  setForm((prev) => ({ ...prev, skinToneOther: '' }))
+                                }
+                              }}
+                            >
+                              <option value="">Select Skin Tone</option>
+                              {indianSkinTones.map((tone) => (
+                                <option key={tone.value} value={tone.value}>
+                                  {tone.label}
+                                </option>
+                              ))}
+                            </CFormSelect>
+
+                            {errors.skinTone && (
+                              <p style={{ color: '#ff2e85' }}>{errors.skinTone}</p>
+                            )}
+
+                            {/* Show input only when "other" is selected */}
+                            {form.skinTone === 'other' && (
+                              <div style={{ marginTop: 10 }}>
+                                <CFormLabel
+                                  className="label-gradient"
+                                  style={{ color: NGK_COLORS.primarySoft }}
+                                >
+                                  Specify Other Skin Tone
+                                </CFormLabel>
+
+                                <CFormInput
+                                  placeholder="Enter your skin tone"
+                                  value={form.skinToneOther || ''}
+                                  onChange={(e) =>
+                                    setForm((prev) => ({ ...prev, skinToneOther: e.target.value }))
+                                  }
+                                />
+                              </div>
                             )}
                           </CCol>
 

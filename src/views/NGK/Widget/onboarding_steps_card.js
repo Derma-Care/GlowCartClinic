@@ -24,7 +24,7 @@ export default function OnboardingStepsCard({ setVisible }) {
     {
       number: '4',
       icon: '📸',
-      title: 'Upload Winning Proof',
+      title: 'Share Delivery Address',
       subtitle:
         'Share your reward-winning screenshot and tag us on Instagram [optional], then submit your delivery address.',
     },
@@ -37,7 +37,7 @@ export default function OnboardingStepsCard({ setVisible }) {
       <div className="header ">
         <div className="d-flex gap-4 justify-content-center align-items-center">
           <span className="star">✨</span>
-          <h2>How Neeha’s GlowKart Onboarding Works</h2>
+          <h2>"Early Access" Onboarding</h2>
         </div>
 
         <button onClick={() => setVisible(false)} className="close-btn  ">
