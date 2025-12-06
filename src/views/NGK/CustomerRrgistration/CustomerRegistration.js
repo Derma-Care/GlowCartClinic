@@ -245,7 +245,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
       const result = await verifyRegistrationCode(code)
 
       if (!result.success) {
-        setError(result.message || '❌ Invalid registration code.')
+        setError(result.data.message || '❌ Invalid registration code.')
         return
       }
 
@@ -562,7 +562,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                               margin: '0 auto',
                             }}
                           >
-                            Thanks for joining N Glow Kart!! Verification is underway. You can spin
+                            Thanks for joining Neeha's Glow Kart!! Verification is underway. You can spin
                             now, and rewards will be dispatched after successful verification.
                           </p>
 
@@ -1073,7 +1073,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                         />
 
                         <label style={{ fontSize: '16px', color: '#555', cursor: 'pointer' }}>
-                          I have read understood{' '}
+                          I have read and understood{' '}
                           <a
                             href="/pdf/privacy-policy.pdf"
                             target="_blank"
@@ -1125,7 +1125,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                             <div style={{ fontSize: '15px', color: '#555' }}>
                               <strong>Aadhaar Consent:</strong>
                               <p style={{ marginTop: '6px' }} className="text-muted">
-                                <strong>{form.fullName}</strong> I hereby give explicit and
+                                <strong>{form.fullName}</strong>, I hereby give explicit and
                                 voluntary consent to <strong>Udit CosmeTech Private Limited</strong>{' '}
                                 to collect and securely process my Aadhaar number for identity
                                 verification and duplicate-account prevention purposes on Neeha’s

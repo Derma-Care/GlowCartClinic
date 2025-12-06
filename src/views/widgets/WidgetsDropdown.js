@@ -26,6 +26,7 @@ import { getStyle } from '@coreui/utils'
 import { CChartLine } from '@coreui/react-chartjs'
 import Pagination from '../../Utils/Pagination'
 import { aptData } from '../AppointmentManagement/appointmnetData'
+import { useHospital } from '../Usecontext/HospitalContext'
 
 const WidgetsDropdown = () => {
   const navigate = useNavigate()
@@ -34,16 +35,13 @@ const WidgetsDropdown = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(5)
   const [selectedDate, setSelectedDate] = useState()
+  const { selectedHospital } = useHospital()
   // Toggle filter (Pending / Completed)
   const toggleFilter = (status) => {
     setFilterTypes(filterTypes.includes(status) ? [] : [status])
   }
-  // Filter by date + status
   const filteredAppointments = aptData.filter((item) => {
-    // Match date
-    const isDateMatch = item.serviceDate === selectedDate
-
-    // Match status
+    const isDateMatch = selectedDate ? item.serviceDate === selectedDate : true
     const isStatusMatch = filterTypes.length === 0 ? true : filterTypes.includes(item.status)
 
     return isDateMatch && isStatusMatch
@@ -54,6 +52,7 @@ const WidgetsDropdown = () => {
   //   if (filterTypes.length === 0) return true
   //   return filterTypes.includes(item.status)
   // })
+  const pendingCount = aptData.filter((item) => item.status.toLowerCase() === 'pending').length
 
   return (
     <>
@@ -62,21 +61,21 @@ const WidgetsDropdown = () => {
         <CCol sm={6} xl={4}>
           <CWidgetStatsA
             color="info"
-            value="50"
+            value={aptData.length}
             title="Total Appointments"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle color="transparent" caret={false} className="p-0">
-                  <CIcon icon={cilOptions} />
-                </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem onClick={() => navigate('/appointment-management')}>
-                    View All Appointments
-                  </CDropdownItem>
-                  <CDropdownItem>Export</CDropdownItem>
-                </CDropdownMenu>
-              </CDropdown>
-            }
+            // action={
+            //   <CDropdown alignment="end">
+            //     <CDropdownToggle color="transparent" caret={false} className="p-0">
+            //       <CIcon icon={cilOptions} />
+            //     </CDropdownToggle>
+            //     <CDropdownMenu>
+            //       <CDropdownItem onClick={() => navigate('/appointment-management')}>
+            //         View All Appointments
+            //       </CDropdownItem>
+            //       <CDropdownItem>Export</CDropdownItem>
+            //     </CDropdownMenu>
+            //   </CDropdown>
+            // }
             chart={
               <CChartLine
                 className="mt-3 mx-3"
@@ -107,15 +106,15 @@ const WidgetsDropdown = () => {
         <CCol sm={6} xl={4}>
           <CWidgetStatsA
             color="success"
-            value="30"
-            title="Total Patients"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle color="transparent" caret={false} className="p-0">
-                  <CIcon icon={cilOptions} />
-                </CDropdownToggle>
-              </CDropdown>
-            }
+            value={pendingCount}
+            title="Pending Appointments"
+            // action={
+            //   <CDropdown alignment="end">
+            //     <CDropdownToggle color="transparent" caret={false} className="p-0">
+            //       <CIcon icon={cilOptions} />
+            //     </CDropdownToggle>
+            //   </CDropdown>
+            // }
             chart={
               <CChartLine
                 className="mt-3 mx-3"
@@ -148,13 +147,13 @@ const WidgetsDropdown = () => {
             color="warning"
             value="12"
             title="Total Doctors"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle color="transparent" caret={false} className="p-0">
-                  <CIcon icon={cilOptions} />
-                </CDropdownToggle>
-              </CDropdown>
-            }
+            // action={
+            //   <CDropdown alignment="end">
+            //     <CDropdownToggle color="transparent" caret={false} className="p-0">
+            //       <CIcon icon={cilOptions} />
+            //     </CDropdownToggle>
+            //   </CDropdown>
+            // }
             chart={
               <CChartLine
                 className="mt-3 mx-3"
@@ -251,8 +250,8 @@ const WidgetsDropdown = () => {
               <CTableHeaderCell>Type</CTableHeaderCell>
               <CTableHeaderCell>Service</CTableHeaderCell>
               <CTableHeaderCell>Date</CTableHeaderCell>
-              <CTableHeaderCell>Action</CTableHeaderCell>
               <CTableHeaderCell>Status</CTableHeaderCell>
+              <CTableHeaderCell>Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
 
@@ -269,6 +268,12 @@ const WidgetsDropdown = () => {
                   <CTableDataCell>{item.serviceDate}</CTableDataCell>
 
                   <CTableDataCell>
+                    <CFormSelect size="sm" value={item.status}>
+                      <option value="Pending">Pending</option>
+                      <option value="Completed">Completed</option>
+                    </CFormSelect>
+                  </CTableDataCell>
+                  <CTableDataCell>
                     <CButton
                       style={{ backgroundColor: 'var(--color-black)', color: 'white' }}
                       size="sm"
@@ -280,13 +285,6 @@ const WidgetsDropdown = () => {
                     >
                       View
                     </CButton>
-                  </CTableDataCell>
-
-                  <CTableDataCell>
-                    <CFormSelect size="sm" value={item.status}>
-                      <option value="Pending">Pending</option>
-                      <option value="Completed">Completed</option>
-                    </CFormSelect>
                   </CTableDataCell>
                 </CTableRow>
               ))}

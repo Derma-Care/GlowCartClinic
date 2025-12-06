@@ -497,10 +497,10 @@ const AppointmentDetails = () => {
           <div className="col-md-4">
             <strong>Gender:</strong> {appointment?.gender}
           </div>
-          <div className="col-12">
+          {/* <div className="col-12">
             <strong>Problem:</strong>{' '}
             <p style={{ color: 'var(--color-black)' }}>{appointment?.problem}</p>
-          </div>
+          </div> */}
         </div>
 
         <hr />
@@ -522,14 +522,12 @@ const AppointmentDetails = () => {
           <div className="col-md-4">
             <strong>Consultation Fee:</strong> ₹{appointment?.consultationFee}
           </div>
-            <div className="col-md-4">
+          <div className="col-md-4">
             <strong>Service Name:</strong> {appointment?.service.serviceName}
           </div>
         </div>
 
         <hr />
-
-     
       </div>
     </div>
   )
