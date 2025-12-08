@@ -56,13 +56,13 @@ export const getNavigation = (permissions = {}) => {
       as: NavLink,
       icon: <CIcon icon={cilGift} customClassName="nav-icon" />,
     },
-    {
-      component: CNavItem,
-      to: '/membership',
-      name: 'Membership',
-      as: NavLink,
-      icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
-    },
+    // {
+    //   component: CNavItem,
+    //   to: '/membership',
+    //   name: 'Membership',
+    //   as: NavLink,
+    //   icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
+    // },
 
     {
       component: CNavItem,

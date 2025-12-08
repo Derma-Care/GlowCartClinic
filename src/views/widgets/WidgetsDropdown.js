@@ -27,6 +27,10 @@ import { CChartLine } from '@coreui/react-chartjs'
 import Pagination from '../../Utils/Pagination'
 import { aptData } from '../AppointmentManagement/appointmnetData'
 import { useHospital } from '../Usecontext/HospitalContext'
+import SlotModal from '../NGK/Widget/SlotModal'
+import ClinicSlotManager from '../NGK/Widget/SlotModal'
+import AdCarousel from './AdCarousel'
+
 
 const WidgetsDropdown = () => {
   const navigate = useNavigate()
@@ -36,6 +40,8 @@ const WidgetsDropdown = () => {
   const [pageSize, setPageSize] = useState(5)
   const [selectedDate, setSelectedDate] = useState()
   const { selectedHospital } = useHospital()
+  const [showSlotsModal, setShowSlotsModal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   // Toggle filter (Pending / Completed)
   const toggleFilter = (status) => {
     setFilterTypes(filterTypes.includes(status) ? [] : [status])
@@ -57,135 +63,35 @@ const WidgetsDropdown = () => {
   return (
     <>
       {/* ----------------------  TOP CARDS ---------------------- */}
-      <CRow xs={{ gutter: 4 }}>
-        <CCol sm={6} xl={4}>
-          <CWidgetStatsA
-            color="info"
-            value={aptData.length}
-            title="Total Appointments"
-            // action={
-            //   <CDropdown alignment="end">
-            //     <CDropdownToggle color="transparent" caret={false} className="p-0">
-            //       <CIcon icon={cilOptions} />
-            //     </CDropdownToggle>
-            //     <CDropdownMenu>
-            //       <CDropdownItem onClick={() => navigate('/appointment-management')}>
-            //         View All Appointments
-            //       </CDropdownItem>
-            //       <CDropdownItem>Export</CDropdownItem>
-            //     </CDropdownMenu>
-            //   </CDropdown>
-            // }
-            chart={
-              <CChartLine
-                className="mt-3 mx-3"
-                style={{ height: '70px' }}
-                data={{
-                  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                  datasets: [
-                    {
-                      label: 'Appointments',
-                      backgroundColor: 'transparent',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointBackgroundColor: getStyle('--cui-primary'),
-                      data: [10, 20, 25, 30, 28, 32, 40],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: { legend: { display: false } },
-                  maintainAspectRatio: false,
-                  scales: { x: { display: false }, y: { display: false } },
-                  elements: { line: { tension: 0.4 }, point: { radius: 0 } },
-                }}
-              />
-            }
-          />
+      <CRow className="d-flex justify-content-between align-items-start  align-content-center">
+        <CCol sm={3} className="mb-2">
+          <CWidgetStatsA color="info" value={aptData.length} title="Total Appointments" />
         </CCol>
 
-        <CCol sm={6} xl={4}>
-          <CWidgetStatsA
-            color="success"
-            value={pendingCount}
-            title="Pending Appointments"
-            // action={
-            //   <CDropdown alignment="end">
-            //     <CDropdownToggle color="transparent" caret={false} className="p-0">
-            //       <CIcon icon={cilOptions} />
-            //     </CDropdownToggle>
-            //   </CDropdown>
-            // }
-            chart={
-              <CChartLine
-                className="mt-3 mx-3"
-                style={{ height: '70px' }}
-                data={{
-                  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                  datasets: [
-                    {
-                      label: 'Patients',
-                      backgroundColor: 'transparent',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointBackgroundColor: getStyle('--cui-success'),
-                      data: [5, 12, 15, 20, 18, 22, 25],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: { legend: { display: false } },
-                  maintainAspectRatio: false,
-                  scales: { x: { display: false }, y: { display: false } },
-                  elements: { line: { tension: 0.4 }, point: { radius: 0 } },
-                }}
-              />
-            }
-          />
+        <CCol sm={3} className="mb-2">
+          <CWidgetStatsA color="success" value={pendingCount} title="Pending Appointments" />
         </CCol>
 
-        <CCol sm={6} xl={4}>
+        <CCol sm={3} className="mb-2">
+          <CWidgetStatsA color="warning" value="12" title="Total Doctors" />
+        </CCol>
+        <CCol sm={3} className="mb-2">
           <CWidgetStatsA
-            color="warning"
-            value="12"
-            title="Total Doctors"
-            // action={
-            //   <CDropdown alignment="end">
-            //     <CDropdownToggle color="transparent" caret={false} className="p-0">
-            //       <CIcon icon={cilOptions} />
-            //     </CDropdownToggle>
-            //   </CDropdown>
-            // }
-            chart={
-              <CChartLine
-                className="mt-3 mx-3"
-                style={{ height: '70px' }}
-                data={{
-                  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                  datasets: [
-                    {
-                      label: 'Doctors',
-                      backgroundColor: 'transparent',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointBackgroundColor: getStyle('--cui-warning'),
-                      data: [2, 3, 4, 4, 5, 6, 7],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: { legend: { display: false } },
-                  maintainAspectRatio: false,
-                  scales: { x: { display: false }, y: { display: false } },
-                  elements: { line: { tension: 0.4 }, point: { radius: 0 } },
-                }}
-              />
-            }
+            title="Management "
+            value="Slots"
+            color="secondary"
+            onClick={() => setShowModal(true)}
+            style={{ cursor: 'pointer' }}
           />
+
+          <ClinicSlotManager show={showModal} setShow={setShowModal} />
         </CCol>
       </CRow>
 
       {/* ----------------------  AD SPACE ---------------------- */}
       <CCard className="mt-4 text-center border-2 border-dashed rounded">
-        <CCardBody className="fw-bold fs-5" style={{ color: 'var(--color-black)' }}>
-          Ad Space
+        <CCardBody>
+          <AdCarousel />
         </CCardBody>
       </CCard>
 

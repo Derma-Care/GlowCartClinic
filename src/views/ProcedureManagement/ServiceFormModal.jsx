@@ -140,9 +140,9 @@ const ServiceFormModal = ({
                 value={newService.offerValidDate || ''}
                 onChange={onChange}
               />
-                {errors.offerValidDate && (
-                              <CFormText className="text-danger">{errors.offerValidDate}</CFormText>
-                            )}
+              {errors.offerValidDate && (
+                <CFormText className="text-danger">{errors.offerValidDate}</CFormText>
+              )}
             </CCol>
 
             <CCol md={3} className="mb-4">
@@ -167,9 +167,7 @@ const ServiceFormModal = ({
                 onChange={onChange}
                 placeholder="Enter no of sittings"
               />
-              {errors.sittings && (
-                <CFormText className="text-danger">{errors.sittings}</CFormText>
-              )}
+              {errors.sittings && <CFormText className="text-danger">{errors.sittings}</CFormText>}
             </CCol>
           </CRow>
 
@@ -231,12 +229,7 @@ const ServiceFormModal = ({
               <h6>
                 Procedure Image <span className="text-danger">*</span>
               </h6>
-              <CFormInput
-                type="file"
-                accept="image/*"
-                name="serviceImage"
-                onChange={onChange}
-              />
+              <CFormInput type="file" accept="image/*" name="serviceImage" onChange={onChange} />
               {newService?.serviceImage && (
                 <img
                   src={
@@ -254,6 +247,17 @@ const ServiceFormModal = ({
             </CCol>
 
             <CCol md={3} className="mb-4">
+              <h6>Procedure Link / Url (Optional)</h6>
+              <CFormInput
+                type="text"
+                name="procedureLink"
+                placeholder="Youtube, Facebook, Instagram, etc.."
+                value={newService.procedureLink || ''}
+                onChange={onChange}
+              />
+            </CCol>
+
+            <CCol md={6} className="mb-4">
               <h6>
                 View Description <span className="text-danger">*</span>
               </h6>
