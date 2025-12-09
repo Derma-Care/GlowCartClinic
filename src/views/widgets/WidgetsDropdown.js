@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   CRow,
   CCol,
@@ -18,6 +18,11 @@ import {
   CCardBody,
   CFormSelect,
   CFormInput,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
 } from '@coreui/react'
 import { useNavigate } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
@@ -30,7 +35,7 @@ import { useHospital } from '../Usecontext/HospitalContext'
 import SlotModal from '../NGK/Widget/SlotModal'
 import ClinicSlotManager from '../NGK/Widget/SlotModal'
 import AdCarousel from './AdCarousel'
-
+import { useGlobalSearch } from '../Usecontext/GlobalSearchContext'
 
 const WidgetsDropdown = () => {
   const navigate = useNavigate()
@@ -42,6 +47,10 @@ const WidgetsDropdown = () => {
   const { selectedHospital } = useHospital()
   const [showSlotsModal, setShowSlotsModal] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const { searchQuery } = useGlobalSearch()
+  const [showDoctorsModal, setShowDoctorsModal] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+
   // Toggle filter (Pending / Completed)
   const toggleFilter = (status) => {
     setFilterTypes(filterTypes.includes(status) ? [] : [status])
@@ -53,12 +62,44 @@ const WidgetsDropdown = () => {
     return isDateMatch && isStatusMatch
   })
 
+  const filteredDoctors = selectedHospital?.data?.doctorsList?.filter(
+    (doctor) =>
+      doctor.doctorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.registrationNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.associationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.associationNumber.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
   // Apply Status Filter
   // const filteredAppointments = aptData.filter((item) => {
   //   if (filterTypes.length === 0) return true
   //   return filterTypes.includes(item.status)
   // })
   const pendingCount = aptData.filter((item) => item.status.toLowerCase() === 'pending').length
+
+  const finalFiltered = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim()
+
+    return aptData.filter((item) => {
+      // Search filter
+      const matchesSearch =
+        !q || Object.values(item).some((val) => String(val).toLowerCase().includes(q))
+
+      // Date filter
+      const matchesDate = selectedDate ? item.serviceDate === selectedDate : true
+
+      // Status filter
+      const matchesStatus = filterTypes.length === 0 ? true : filterTypes.includes(item.status)
+
+      return matchesSearch && matchesDate && matchesStatus
+    })
+  }, [searchQuery, selectedDate, filterTypes])
+
+  const displayData = useMemo(
+    () => finalFiltered.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+    [finalFiltered, currentPage, pageSize],
+  )
 
   return (
     <>
@@ -73,8 +114,15 @@ const WidgetsDropdown = () => {
         </CCol>
 
         <CCol sm={3} className="mb-2">
-          <CWidgetStatsA color="warning" value="12" title="Total Doctors" />
+          <div onClick={() => setShowDoctorsModal(true)} style={{ cursor: 'pointer' }}>
+            <CWidgetStatsA
+              color="warning"
+              value={selectedHospital?.data.doctorsList.length}
+              title="Total Doctors"
+            />
+          </div>
         </CCol>
+
         <CCol sm={3} className="mb-2">
           <CWidgetStatsA
             title="Management "
@@ -146,60 +194,134 @@ const WidgetsDropdown = () => {
           </div>
         </div>
 
+        <CModal visible={showDoctorsModal} onClose={() => setShowDoctorsModal(false)} size="lg" backdrop="static">
+          <CModalHeader>
+            <CModalTitle>Doctors List</CModalTitle>
+          </CModalHeader>
+
+          <CModalBody>
+            {/* 🔍 Search Box */}
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search by name, registration no, specialization..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            {/* 🩺 Filtered Doctors Table */}
+            {filteredDoctors?.length > 0 ? (
+              <table className="table table-bordered pink-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Doctor Name</th>
+                    <th>Registration No.</th>
+                    <th>Specialization</th>
+                    <th>Association</th>
+                    <th>Association No.</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {filteredDoctors.map((doctor, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{doctor.doctorName}</td>
+                      <td>{doctor.registrationNumber}</td>
+                      <td>{doctor.specialization}</td>
+                      <td>{doctor.associationName}</td>
+                      <td>{doctor.associationNumber}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="text-center mt-3">No matching doctors found.</p>
+            )}
+          </CModalBody>
+
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setShowDoctorsModal(false)}>
+              Close
+            </CButton>
+          </CModalFooter>
+        </CModal>
+
         {/* TABLE */}
-        <CTable striped hover responsive className="pink-table">
-          <CTableHead>
-            <CTableRow>
-              <CTableHeaderCell>S.No</CTableHeaderCell>
-              <CTableHeaderCell>Name</CTableHeaderCell>
-              <CTableHeaderCell>Age</CTableHeaderCell>
-              <CTableHeaderCell>Type</CTableHeaderCell>
-              <CTableHeaderCell>Service</CTableHeaderCell>
-              <CTableHeaderCell>Date</CTableHeaderCell>
-              <CTableHeaderCell>Status</CTableHeaderCell>
-              <CTableHeaderCell>Action</CTableHeaderCell>
-            </CTableRow>
-          </CTableHead>
+        {displayData.length === 0 ? (
+          <CTableRow
+            className="d-flex justify-content-center"
+            style={{ color: 'var(--color-black)' }}
+          >
+            <CTableDataCell colSpan={8} className="text-center py-4">
+              No appointments found
+            </CTableDataCell>
+          </CTableRow>
+        ) : (
+          <CTable striped hover responsive className="pink-table">
+            <CTableHead>
+              <CTableRow>
+                <CTableHeaderCell>S.No</CTableHeaderCell>
+                <CTableHeaderCell>Name</CTableHeaderCell>
+                <CTableHeaderCell>Age</CTableHeaderCell>
+                <CTableHeaderCell>Type</CTableHeaderCell>
+                <CTableHeaderCell>Service</CTableHeaderCell>
+                <CTableHeaderCell>Date</CTableHeaderCell>
+                <CTableHeaderCell>Status</CTableHeaderCell>
+                <CTableHeaderCell>Action</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
 
-          <CTableBody>
-            {filteredAppointments
-              .slice((currentPage - 1) * pageSize, currentPage * pageSize)
-              .map((item, index) => (
-                <CTableRow key={item.bookingId}>
-                  <CTableDataCell>{(currentPage - 1) * pageSize + index + 1}</CTableDataCell>
-                  <CTableDataCell>{item.patientName}</CTableDataCell>
-                  <CTableDataCell>{item.patientAge} Yrs</CTableDataCell>
-                  <CTableDataCell>{item.service.type}</CTableDataCell>
-                  <CTableDataCell>{item.service.serviceName}</CTableDataCell>
-                  <CTableDataCell>{item.serviceDate}</CTableDataCell>
+            <CTableBody>
+              {displayData
+                .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                .map((item, index) => (
+                  <CTableRow key={item.bookingId}>
+                    <CTableDataCell>{(currentPage - 1) * pageSize + index + 1}</CTableDataCell>
+                    <CTableDataCell>{item.patientName}</CTableDataCell>
+                    <CTableDataCell>{item.patientAge} Yrs</CTableDataCell>
+                    <CTableDataCell>{item.service.type}</CTableDataCell>
+                    <CTableDataCell>{item.service.serviceName}</CTableDataCell>
+                    <CTableDataCell>{item.serviceDate}</CTableDataCell>
 
-                  <CTableDataCell>
-                    <CFormSelect size="sm" value={item.status}>
-                      <option value="Pending">Pending</option>
-                      <option value="Completed">Completed</option>
-                    </CFormSelect>
-                  </CTableDataCell>
-                  <CTableDataCell>
-                    <CButton
-                      style={{ backgroundColor: 'var(--color-black)', color: 'white' }}
-                      size="sm"
-                      onClick={() =>
-                        navigate(`/appointment-details/${item.bookingId}`, {
-                          state: { appointment: item },
-                        })
-                      }
-                    >
-                      View
-                    </CButton>
-                  </CTableDataCell>
-                </CTableRow>
-              ))}
-          </CTableBody>
-        </CTable>
+                    <CTableDataCell>
+                      <CFormSelect
+                        size="sm"
+                        value={item.status}
+                        onChange={(e) => {
+                          item.status = e.target.value
+                          // If you want re-render: update state
+                        }}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                      </CFormSelect>
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      <CButton
+                        style={{ backgroundColor: 'var(--color-black)', color: 'white' }}
+                        size="sm"
+                        onClick={() =>
+                          navigate(`/appointment-details/${item.bookingId}`, {
+                            state: { appointment: item },
+                          })
+                        }
+                      >
+                        View
+                      </CButton>
+                    </CTableDataCell>
+                  </CTableRow>
+                ))}
+            </CTableBody>
+          </CTable>
+        )}
 
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(filteredAppointments.length / pageSize)}
+          totalPages={Math.ceil(displayData.length / pageSize)}
           pageSize={pageSize}
           onPageChange={setCurrentPage}
           onPageSizeChange={setPageSize}
