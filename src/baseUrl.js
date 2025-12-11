@@ -63,9 +63,10 @@ export const sendOtp = 'clinics/forgot-password'
 export const resendOTP = 'clinics/resend-otp'
 export const resetPassword = 'clinics/reset-password'
 
-
 export const updatePassword = 'clinics/updatePassword'
 
-
-
- 
+//unwanted
+export const Booking_service_Url = `${wifiUrl}/api/booking`
+export const DeleteBookings = 'getAllBookings'
+ export const getAllBookedServices = 'getBookingsByHospitalId'
+ export const GetBookingBy_ClinicId = 'doctor/getDoctorsByHospitalId'

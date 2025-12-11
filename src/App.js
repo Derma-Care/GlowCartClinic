@@ -49,6 +49,8 @@ const App = () => {
     return () => window.removeEventListener('openPayoutAuth', handler)
   }, [])
 
+  
+
   return (
     <Suspense
       fallback={
