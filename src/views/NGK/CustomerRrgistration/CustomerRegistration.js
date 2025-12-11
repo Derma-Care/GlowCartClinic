@@ -326,7 +326,9 @@ export default function NGlowKartPatientRegistration_CoreUI() {
 
     if (form.serviceStatus == '1') {
       if (!form.clinicName) e.clinicName = 'Clinic name required'
-      if (!form.clinicCityArea) e.clinicCityArea = 'Clinic area required'
+      if (!/^\d{6}$/.test(form.clinicCityArea)) {
+        e.clinicCityArea = 'Pincode must be exactly 6 digits.'
+      }
 
       if (!form.dateOfLastVisit) e.dateOfLastVisit = 'Last visit date required'
       else {
@@ -359,9 +361,6 @@ export default function NGlowKartPatientRegistration_CoreUI() {
       e.aadhaarConsent = 'You must accept Aadhaar consent before submitting.'
 
     if (!form.userConsent) e.userConsent = 'You must agree to the User Consent Disclaimer.'
-    if (!/^\d{6}$/.test(form.clinicCityArea)) {
-      e.clinicCityArea = 'Pincode must be exactly 6 digits.'
-    }
 
     setErrors(e)
     // scrollToFirstError(e)
@@ -1061,6 +1060,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
                         </CFormLabel>
 
                         <Select
+                        styles={{color:"black"}}
                           ref={inputRefs.city}
                           name="city"
                           value={form.city ? { label: form.city, value: form.city } : null}
