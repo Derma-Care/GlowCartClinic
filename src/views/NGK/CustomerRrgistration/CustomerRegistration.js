@@ -321,7 +321,9 @@ export default function NGlowKartPatientRegistration_CoreUI() {
       // } else {
       //   console.warn('No backend (status) data returned, skipping applyBackendStatus.')
       // }
-
+if (result.data) {
+        applyBackendStatus(result.data)
+}
       // 3️⃣ Fetch customer details
       const customerRes = await getCustomerByCode(code)
 
@@ -330,9 +332,7 @@ export default function NGlowKartPatientRegistration_CoreUI() {
         setUserData(customer)
       }
       // ⭐ NOW call backend status
-      if (result.data) {
-        applyBackendStatus(result.data)
-      }
+    
     } catch (err) {
       console.error('Verify Code Error:', err)
       setError('⚠️ Something went wrong. Try again.')
