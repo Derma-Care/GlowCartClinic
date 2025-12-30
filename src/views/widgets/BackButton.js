@@ -3,25 +3,68 @@ import { CButton } from '@coreui/react'
 import { useNavigation } from '../Usecontext/NavigationProvider'
 import { showCustomToast } from '../../Utils/Toaster'
 import { useHospital } from '../Usecontext/HospitalContext'
+import { BASE_URL } from '../../baseUrl'
 
 const BackButton = ({ initialStatus = true }) => {
   const { goBack } = useNavigation()
   const [isOnline, setIsOnline] = useState(initialStatus)
+  const [loading, setLoading] = useState(false)
 
   const { selectedHospital } = useHospital()
-  const toggleStatus = () => {
-    let clinicId = localStorage.getItem('HospitalId')
-    const hospitalId = localStorage.getItem('HospitalId')
-    console.log(selectedHospital)
-    console.log(hospitalId)
-    // showCustomToast('clinicId', selectedHospital.clinicId)
-    const newStatus = !isOnline
-    setIsOnline(newStatus)
 
-    const statusText = newStatus ? '🟢 Clinic is now online' : '🔴 Clinic is now offline'
+  const toggleStatus = async () => {
+    const clinicId = localStorage.getItem('HospitalId')
 
-    showCustomToast(statusText) // ✅ proper text
-    console.log('Clinic Status:', newStatus) // true / false
+    console.log('📌 Clinic ID:', clinicId)
+    console.log('📌 Current Online Status:', isOnline)
+
+    if (!clinicId) {
+      console.error('❌ Clinic ID not found in localStorage')
+      showCustomToast('❌ Clinic ID not found')
+      return
+    }
+
+    const requestPayload = {
+      online: !isOnline,
+    }
+
+    console.log('➡️ Sending Request Payload:', requestPayload)
+
+    setLoading(true)
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/clinic/${clinicId}/online-status`,
+        requestPayload,
+      )
+
+      console.log('✅ API Response:', response.data)
+
+      const updatedStatus = response.data?.online ?? response.data?.data?.online
+
+      console.log('🔄 Updated Status from Backend:', updatedStatus)
+
+      if (typeof updatedStatus !== 'boolean') {
+        console.error('❌ Invalid status received from backend')
+        throw new Error('Invalid backend response')
+      }
+
+      setIsOnline(updatedStatus)
+
+      const statusText = updatedStatus ? '🟢 Clinic is now online' : '🔴 Clinic is now offline'
+
+      console.log('📢 Showing Toast:', statusText)
+      showCustomToast(statusText)
+    } catch (error) {
+      console.error('❌ Failed to update clinic status')
+      console.error('❌ Error Object:', error)
+      console.error('❌ Backend Error Response:', error?.response?.data)
+
+      showCustomToast('❌ Failed to update clinic status')
+    } finally {
+      console.log('⏹ Loading finished')
+      setLoading(false)
+    }
   }
 
   return (
@@ -118,4 +161,18 @@ export default BackButton
 // } finally {
 //   setLoading(false)
 // }
+// }
+// const toggleStatus = () => {
+//   let clinicId = localStorage.getItem('HospitalId')
+//   const hospitalId = localStorage.getItem('HospitalId')
+//   console.log(selectedHospital)
+//   console.log(hospitalId)
+//   // showCustomToast('clinicId', selectedHospital.clinicId)
+//   const newStatus = !isOnline
+//   setIsOnline(newStatus)
+
+//   const statusText = newStatus ? '🟢 Clinic is now online' : '🔴 Clinic is now offline'
+
+//   showCustomToast(statusText) // ✅ proper text
+//   console.log('Clinic Status:', newStatus) // true / false
 // }
