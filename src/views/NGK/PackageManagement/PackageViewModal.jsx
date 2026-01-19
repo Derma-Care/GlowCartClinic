@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-no-comment-textnodes */
 // PackageViewModal.jsx
 import React from 'react'
 import {
@@ -42,9 +44,7 @@ const PackageViewModal = ({ visible, data, onClose, formatMinutes }) => {
             <CCol sm={6}>
               <p className="mb-1 fw-semibold">Offer Start Date:</p>
               <span className="text-muted">
-                {data.offerStart
-                  ? new Date(data.offerStart).toLocaleDateString('en-GB')
-                  : 'N/A'}
+                {data.offerStart ? new Date(data.offerStart).toLocaleDateString('en-GB') : 'N/A'}
               </span>
             </CCol>
             <CCol sm={6}>
@@ -124,6 +124,17 @@ const PackageViewModal = ({ visible, data, onClose, formatMinutes }) => {
               <span className="text-muted"> {data.sittings ? data.sittings : 'N/A'}</span>
               {/* <strong>No. of Sittings:</strong> {data.sittings || 'N/A'} */}
             </CCol>
+            <CCol sm={4}>
+              <span className="mb-1 fw-semibold">Payment Type:</span>
+              <span className="text-muted"> {data.paymentType ? data.paymentType : 'N/A'}</span>
+              {/* <strong>No. of Sittings:</strong> {data.sittings || 'N/A'} */}
+            </CCol>
+            {data?.partialPaymentPercentage != null && (
+              <CCol sm={4}>
+                <span className="mb-1 fw-semibold">Partial Payment Percentage:</span>
+                <span className="text-muted"> {data.partialPaymentPercentage}%</span>
+              </CCol>
+            )}
           </CRow>
         </div>
 
@@ -171,6 +182,7 @@ const PackageViewModal = ({ visible, data, onClose, formatMinutes }) => {
             </CCol> */}
             <CCol sm={6}>
               <p className="fw-semibold">Description:</p>
+              // eslint-disable-next-line react/prop-types, react/prop-types
               <p className="text-muted">{data.description || 'N/A'}</p>
             </CCol>
           </CRow>

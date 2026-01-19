@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-no-comment-textnodes */
 // ServiceViewModal.jsx
 import React from 'react'
 import {
@@ -111,9 +113,7 @@ const ServiceViewModal = ({ visible, data, onClose, formatMinutes }) => {
             </CCol>
             <CCol sm={4}>
               <span className="mb-1 fw-semibold">Service Time: </span>
-              <span className="text-muted">
-             {data.minTime ? data.minTime : 'N/A'}
-              </span>
+              <span className="text-muted">{data.minTime ? data.minTime : 'N/A'}</span>
               {/* <strong>Service Time:</strong> {data.minTime ? formatMinutes(data.minTime) : 'N/A'} */}
             </CCol>
             <CCol sm={4}>
@@ -121,6 +121,17 @@ const ServiceViewModal = ({ visible, data, onClose, formatMinutes }) => {
               <span className="text-muted"> {data.sittings ? data.sittings : 'N/A'}</span>
               {/* <strong>No. of Sittings:</strong> {data.sittings || 'N/A'} */}
             </CCol>
+            <CCol sm={4}>
+              <span className="mb-1 fw-semibold">Payment Type:</span>
+              <span className="text-muted"> {data.paymentType ? data.paymentType : 'N/A'}</span>
+              {/* <strong>No. of Sittings:</strong> {data.sittings || 'N/A'} */}
+            </CCol>
+            {data?.partialPaymentPercentage != null && (
+              <CCol sm={4}>
+                <span className="mb-1 fw-semibold">Partial Payment Percentage:</span>
+                <span className="text-muted"> {data.partialPaymentPercentage}%</span>
+              </CCol>
+            )}
           </CRow>
         </div>
 
@@ -237,6 +248,7 @@ const ServiceViewModal = ({ visible, data, onClose, formatMinutes }) => {
           </CRow>
           <CCol sm={12}>
             <p className="fw-semibold">Description:</p>
+            // eslint-disable-next-line react/prop-types
             <p className="text-muted">{data.description || 'N/A'}</p>
           </CCol>
         </div>
