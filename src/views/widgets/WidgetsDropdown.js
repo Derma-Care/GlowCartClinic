@@ -23,6 +23,7 @@ import {
   CModalTitle,
   CModalBody,
   CModalFooter,
+  CSpinner,
 } from '@coreui/react'
 import { useNavigate } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
@@ -232,16 +233,18 @@ const WidgetsDropdown = () => {
 
             <button
               onClick={() => toggleFilter('CONFIRMED')}
-              className={`btn ${filterTypes.includes('CONFIRMED') ? 'btn-selected' : 'btn-unselected'
-                }`}
+              className={`btn ${
+                filterTypes.includes('CONFIRMED') ? 'btn-selected' : 'btn-unselected'
+              }`}
             >
               Confirmed
             </button>
 
             <button
               onClick={() => toggleFilter('COMPLETED')}
-              className={`btn ${filterTypes.includes('COMPLETED') ? 'btn-selected' : 'btn-unselected'
-                }`}
+              className={`btn ${
+                filterTypes.includes('COMPLETED') ? 'btn-selected' : 'btn-unselected'
+              }`}
             >
               Completed
             </button>
@@ -348,11 +351,27 @@ const WidgetsDropdown = () => {
         </CModal>
 
         {/* TABLE */}
-        {displayData.length === 0 ? (
-          <CTableRow
-            className="d-flex justify-content-center"
-            style={{ color: 'var(--color-black)' }}
+        {loading ? (
+          // 🔄 LOADING STATE
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: '300px' }}
           >
+            <div className="d-flex justify-content-center align-items-center vh-100">
+              <CSpinner size="sm" color="primary" />
+            </div>
+            {/* <img
+              src={DermaCareLogo}
+              alt="Loading"
+              style={{
+                width: '120px',
+                animation: 'pulseGlow 1.5s infinite ease-in-out',
+              }}
+            /> */}
+          </div>
+        ) : displayData.length === 0 ? (
+          // ❌ NO DATA STATE (after loading)
+          <CTableRow>
             <CTableDataCell colSpan={8} className="text-center py-4">
               No appointments found
             </CTableDataCell>
@@ -366,6 +385,7 @@ const WidgetsDropdown = () => {
                 <CTableHeaderCell>Age</CTableHeaderCell>
                 <CTableHeaderCell>Type</CTableHeaderCell>
                 <CTableHeaderCell>Service</CTableHeaderCell>
+                <CTableHeaderCell>P. Status</CTableHeaderCell>
                 <CTableHeaderCell>Date</CTableHeaderCell>
                 <CTableHeaderCell>Status</CTableHeaderCell>
                 <CTableHeaderCell>Action</CTableHeaderCell>
@@ -382,6 +402,7 @@ const WidgetsDropdown = () => {
 
                   <CTableDataCell>{item.serviceType}</CTableDataCell>
                   <CTableDataCell>{item.serviceName}</CTableDataCell>
+                  <CTableDataCell>{item.paymentStatus}</CTableDataCell>
                   <CTableDataCell>{item.appointmentDate}</CTableDataCell>
 
                   <CTableDataCell>
@@ -440,7 +461,6 @@ const WidgetsDropdown = () => {
             setCurrentPage(1) // reset page on size change
           }}
         />
-
       </div>
     </>
   )

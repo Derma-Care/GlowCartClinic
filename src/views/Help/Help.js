@@ -6,6 +6,7 @@ import { showCustomToast } from '../../Utils/Toaster'
 import { emailPattern, mobilePattern } from '../../Constant/Constants'
 import axios from 'axios'
 import { BASE_URL, CreateClinicEnquiry } from '../../baseUrl'
+import { ToastContainer } from 'react-toastify'
 
 function Help() {
   const { selectedHospital } = useHospital()
@@ -104,6 +105,7 @@ function Help() {
 
   return (
     <div className="help-container p-4">
+      <ToastContainer />
       {/* 🔹 Header */}
       <div className="text-center mb-5">
         <h4 className="fw-bold mb-2">Help & Support</h4>
