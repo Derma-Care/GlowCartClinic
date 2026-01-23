@@ -162,7 +162,7 @@ function Help() {
           </div>
 
           {/* Support timing */}
-          <p className="text-muted mt-4" style={{ fontSize: '13px' }}>
+          <p className="text-muted mt-4  " style={{ fontSize: '13px' }}>
             Support Hours: Mon–Sat, 9:00 AM – 6:00 PM
             <br />
             Response within 24 working hours

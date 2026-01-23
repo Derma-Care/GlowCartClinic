@@ -63,7 +63,7 @@ const ServiceViewModal = ({ visible, data, onClose, formatMinutes }) => {
           <h6 className="fw-bold border-bottom pb-2 mb-3">Pricing Details</h6>
           <CRow className="gy-2">
             <CCol sm={4}>
-              <span className="mb-1 fw-semibold">Offer End Date:</span>
+              <span className="mb-1 fw-semibold">Price</span>
               <span className="text-muted"> ₹ {Math.round(data.price || 0)}</span>
             </CCol>
             <CCol sm={4}>
@@ -248,7 +248,6 @@ const ServiceViewModal = ({ visible, data, onClose, formatMinutes }) => {
           </CRow>
           <CCol sm={12}>
             <p className="fw-semibold">Description:</p>
-            // eslint-disable-next-line react/prop-types
             <p className="text-muted">{data.description || 'N/A'}</p>
           </CCol>
         </div>

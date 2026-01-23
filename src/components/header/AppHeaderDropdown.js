@@ -11,7 +11,7 @@ import {
   CModalTitle,
   CButton,
 } from '@coreui/react'
-import { cilLockLocked, cilAccountLogout, cilSettings } from '@coreui/icons'
+import { cilLockLocked, cilAccountLogout, cilSettings, cilInfo } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
 import DermaCareLogo from '../../assets/images/logoP.png'
@@ -19,6 +19,7 @@ import axios from 'axios'
 import { MainAdmin_URL, updatePassword } from '../../baseUrl'
 import { showCustomToast } from '../../Utils/Toaster'
 import ResetPassword from '../../views/Resetpassword'
+import AboutClinic from '../../views/pages/Clinic/AboutClinic'
 
 const AppHeaderDropdown = () => {
   const navigate = useNavigate()
@@ -27,6 +28,7 @@ const AppHeaderDropdown = () => {
   const [showResetModal, setShowResetModal] = useState(false)
   const resetRef = useRef(null)
   const [uloading, setULoading] = useState(false)
+  const [showSettingsModal, setShowSettingsModal] = useState(false)
 
   // ⭐ Logout
   const handleLogout = () => {
@@ -73,9 +75,9 @@ const AppHeaderDropdown = () => {
 
         <CDropdownMenu placement="bottom-end">
           {/* Settings */}
-          <CDropdownItem>
-            <CIcon icon={cilSettings} className="me-2" />
-            Settings
+          <CDropdownItem onClick={() => setShowSettingsModal(true)}>
+            <CIcon icon={cilInfo} className="me-2" />
+            About
           </CDropdownItem>
 
           {/* 🔥 Change Password */}
@@ -115,6 +117,29 @@ const AppHeaderDropdown = () => {
 
           <CButton color="primary" disabled={uloading} onClick={handleUpdatePassword}>
             {uloading ? 'Updating...' : 'Update Password'}
+          </CButton>
+        </CModalFooter>
+      </CModal>
+
+      {/* ⭐ ABOUT CLINIC MODAL */}
+      <CModal
+        visible={showSettingsModal}
+        size="lg"
+        backdrop="static"
+        onClose={() => setShowSettingsModal(false)}
+        className="custom-modal"
+      >
+        <CModalHeader>
+          <CModalTitle>About Clinic</CModalTitle>
+        </CModalHeader>
+
+        <CModalBody>
+          <AboutClinic setShowSettingsModal={setShowSettingsModal} />
+        </CModalBody>
+
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setShowSettingsModal(false)}>
+            Close
           </CButton>
         </CModalFooter>
       </CModal>

@@ -61,6 +61,8 @@ const WidgetsDropdown = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [pendingStatusChange, setPendingStatusChange] = useState(null)
   // { bookingId, newStatus }
+  const [typeFilter, setTypeFilter] = useState('ALL')
+  // ALL | PACKAGE | PROCEDURE
 
   // Toggle filter (Pending / Completed)
   const toggleFilter = (status) => {
@@ -100,9 +102,11 @@ const WidgetsDropdown = () => {
 
       const matchesStatus = filterTypes.length === 0 ? true : filterTypes.includes(item.status)
 
-      return matchesSearch && matchesDate && matchesStatus
+      const matchesType = typeFilter === 'ALL' ? true : item.serviceType === typeFilter
+
+      return matchesSearch && matchesDate && matchesStatus && matchesType
     })
-  }, [appointments, searchQuery, selectedDate, filterTypes])
+  }, [appointments, searchQuery, selectedDate, filterTypes, typeFilter])
 
   const displayData = useMemo(
     () => finalFiltered.slice((currentPage - 1) * pageSize, currentPage * pageSize),
@@ -214,60 +218,110 @@ const WidgetsDropdown = () => {
 
       {/* ----------------------  TODAY APPOINTMENTS ---------------------- */}
       <div className="container mt-4">
-        <h5 className="mb-4">Appointments</h5>
+        {/* {displayData.length > 0 && ( */}
+        <div>
+          <h5 className="mb-4">Appointments</h5>
 
-        {/* FILTER BUTTONS */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          {/* LEFT SIDE → FILTER BUTTONS */}
-          <div className="d-flex gap-2">
-            <CButton
-              style={{ backgroundColor: 'var(--color-black)', color: 'white' }}
-              onClick={() => {
-                setSelectedDate('')
-                setFilterTypes([])
-              }}
-              setSelectedDate
-            >
-              All
-            </CButton>
+          {/* FILTER BUTTONS */}
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            {/* LEFT SIDE → FILTER BUTTONS */}
+            {/* <div className="d-flex gap-2">
+                <CButton
+                  style={{ backgroundColor: 'var(--color-black)', color: 'white' }}
+                  onClick={() => {
+                    setSelectedDate('')
+                    setFilterTypes([])
+                  }}
+                  setSelectedDate
+                >
+                  All
+                </CButton>
 
-            <button
-              onClick={() => toggleFilter('CONFIRMED')}
-              className={`btn ${
-                filterTypes.includes('CONFIRMED') ? 'btn-selected' : 'btn-unselected'
-              }`}
-            >
-              Confirmed
-            </button>
+                <button
+                  onClick={() => toggleFilter('CONFIRMED')}
+                  className={`btn ${
+                    filterTypes.includes('CONFIRMED') ? 'btn-selected' : 'btn-unselected'
+                  }`}
+                >
+                  Confirmed
+                </button>
 
-            <button
-              onClick={() => toggleFilter('COMPLETED')}
-              className={`btn ${
-                filterTypes.includes('COMPLETED') ? 'btn-selected' : 'btn-unselected'
-              }`}
-            >
-              Completed
-            </button>
-          </div>
+                <button
+                  onClick={() => toggleFilter('COMPLETED')}
+                  className={`btn ${
+                    filterTypes.includes('COMPLETED') ? 'btn-selected' : 'btn-unselected'
+                  }`}
+                >
+                  Completed
+                </button>
+              </div> */}
+            <div className="d-flex gap-2 flex-wrap">
+              {/* STATUS FILTERS */}
+              <CButton
+                style={{ backgroundColor: 'var(--color-black)', color: 'white' }}
+                onClick={() => {
+                  setSelectedDate('')
+                  setFilterTypes([])
+                  setTypeFilter('ALL')
+                }}
+              >
+                All
+              </CButton>
 
-          {/* RIGHT SIDE → RESULTS + DATE */}
-          <div className="d-flex align-items-center gap-3">
-            <p className="m-0  " style={{ color: 'var(--color-black)' }}>
-              Showing {displayData.length} results
-            </p>
+              <button
+                onClick={() => toggleFilter('CONFIRMED')}
+                className={`btn ${
+                  filterTypes.includes('CONFIRMED') ? 'btn-selected' : 'btn-unselected'
+                }`}
+              >
+                Confirmed
+              </button>
 
-            <CFormInput
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              style={{
-                maxWidth: '160px',
-                borderColor: 'var(--color-black)',
-                color: 'var(--color-black)',
-              }}
-            />
+              <button
+                onClick={() => toggleFilter('COMPLETED')}
+                className={`btn ${
+                  filterTypes.includes('COMPLETED') ? 'btn-selected' : 'btn-unselected'
+                }`}
+              >
+                Completed
+              </button>
+
+              {/* TYPE FILTERS */}
+              <button
+                onClick={() => setTypeFilter('PROCEDURE')}
+                className={`btn ${typeFilter === 'PROCEDURE' ? 'btn-selected' : 'btn-unselected'}`}
+              >
+                Procedure
+              </button>
+
+              <button
+                onClick={() => setTypeFilter('PACKAGE')}
+                className={`btn ${typeFilter === 'PACKAGE' ? 'btn-selected' : 'btn-unselected'}`}
+              >
+                Package
+              </button>
+            </div>
+
+            {/* RIGHT SIDE → RESULTS + DATE */}
+            <div className="d-flex align-items-center gap-3">
+              <p className="m-0  " style={{ color: 'var(--color-black)' }}>
+                Showing {displayData.length} results
+              </p>
+
+              <CFormInput
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                style={{
+                  maxWidth: '160px',
+                  borderColor: 'var(--color-black)',
+                  color: 'var(--color-black)',
+                }}
+              />
+            </div>
           </div>
         </div>
+        {/* )} */}
 
         {/* <div
           style={{
@@ -371,11 +425,11 @@ const WidgetsDropdown = () => {
           </div>
         ) : displayData.length === 0 ? (
           // ❌ NO DATA STATE (after loading)
-          <CTableRow>
-            <CTableDataCell colSpan={8} className="text-center py-4">
+          <div>
+            <div colSpan={8} className="text-center py-4 w-100">
               No appointments found
-            </CTableDataCell>
-          </CTableRow>
+            </div>
+          </div>
         ) : (
           <CTable striped hover responsive className="pink-table">
             <CTableHead>
@@ -450,17 +504,18 @@ const WidgetsDropdown = () => {
           onConfirm={handleConfirmStatusChange}
           onCancel={handleCancelStatusChange}
         />
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(finalFiltered.length / pageSize)}
-          pageSize={pageSize}
-          onPageChange={setCurrentPage}
-          onPageSizeChange={(size) => {
-            setPageSize(size)
-            setCurrentPage(1) // reset page on size change
-          }}
-        />
+        {displayData.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(finalFiltered.length / pageSize)}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={(size) => {
+              setPageSize(size)
+              setCurrentPage(1) // reset page on size change
+            }}
+          />
+        )}
       </div>
     </>
   )

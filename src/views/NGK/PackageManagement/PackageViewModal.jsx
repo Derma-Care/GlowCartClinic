@@ -25,7 +25,7 @@ const PackageViewModal = ({ visible, data, onClose, formatMinutes }) => {
       className="custom-modal"
     >
       <CModalHeader className="text-white">
-        <CModalTitle className="w-100 text-center fs-5 fw-bold">Procedure Details</CModalTitle>
+        <CModalTitle className="w-100 text-center fs-5 fw-bold">Package Details</CModalTitle>
       </CModalHeader>
 
       <CModalBody className="bg-light text-dark">
@@ -182,7 +182,6 @@ const PackageViewModal = ({ visible, data, onClose, formatMinutes }) => {
             </CCol> */}
             <CCol sm={6}>
               <p className="fw-semibold">Description:</p>
-              // eslint-disable-next-line react/prop-types, react/prop-types
               <p className="text-muted">{data.description || 'N/A'}</p>
             </CCol>
           </CRow>
