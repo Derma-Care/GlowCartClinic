@@ -20,6 +20,7 @@ import { MainAdmin_URL, updatePassword } from '../../baseUrl'
 import { showCustomToast } from '../../Utils/Toaster'
 import ResetPassword from '../../views/Resetpassword'
 import AboutClinic from '../../views/pages/Clinic/AboutClinic'
+import ConfirmationModal from '../ConfirmationModal'
 
 const AppHeaderDropdown = () => {
   const navigate = useNavigate()
@@ -29,12 +30,17 @@ const AppHeaderDropdown = () => {
   const resetRef = useRef(null)
   const [uloading, setULoading] = useState(false)
   const [showSettingsModal, setShowSettingsModal] = useState(false)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   // ⭐ Logout
-  const handleLogout = () => {
+  const handleLogoutConfirm = () => {
     localStorage.clear()
     sessionStorage.clear()
     navigate('/login')
+  }
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true)
   }
 
   // ⭐ Update Password
@@ -87,7 +93,7 @@ const AppHeaderDropdown = () => {
           </CDropdownItem>
 
           {/* Logout */}
-          <CDropdownItem onClick={handleLogout}>
+          <CDropdownItem onClick={handleLogoutClick}>
             <CIcon icon={cilAccountLogout} className="me-2" />
             Logout
           </CDropdownItem>
@@ -143,6 +149,17 @@ const AppHeaderDropdown = () => {
           </CButton>
         </CModalFooter>
       </CModal>
+      <ConfirmationModal
+        isVisible={showLogoutModal}
+        title="Confirm Logout"
+        message="Are you sure you want to logout?"
+        confirmText="Yes, Logout"
+        cancelText="Cancel"
+        confirmColor="danger"
+        cancelColor="secondary"
+        onConfirm={handleLogoutConfirm}
+        onCancel={() => setShowLogoutModal(false)}
+      />
     </>
   )
 }

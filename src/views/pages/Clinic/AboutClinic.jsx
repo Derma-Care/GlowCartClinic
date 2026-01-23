@@ -388,7 +388,7 @@ const updateSelectedHospitalStorage = (updatedClinic) => {
           }}
         />
       </div>
-      {edit && (
+      {/* {edit && (
         <CFormInput
           type="file"
           accept=".png,.jpg,.jpeg"
@@ -396,7 +396,7 @@ const updateSelectedHospitalStorage = (updatedClinic) => {
           onChange={handleLogoChange}
           style={{ maxWidth: 220 }}
         />
-      )}
+      )} */}
       </div>
     ) : (
       <div
