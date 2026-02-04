@@ -21,6 +21,7 @@ import { showCustomToast } from '../../Utils/Toaster'
 import ResetPassword from '../../views/Resetpassword'
 import AboutClinic from '../../views/pages/Clinic/AboutClinic'
 import ConfirmationModal from '../ConfirmationModal'
+import { http } from '../../Utils/Interceptors'
 
 const AppHeaderDropdown = () => {
   const navigate = useNavigate()
@@ -52,7 +53,7 @@ const AppHeaderDropdown = () => {
     setULoading(true)
 
     try {
-      const response = await axios.put(`${MainAdmin_URL}/${updatePassword}/${form.username}`, {
+      const response = await http.put(`${MainAdmin_URL}/${updatePassword}/${form.username}`, {
         currentPassword: form.currentPassword,
         newPassword: form.newPassword,
         confirmPassword: form.confirmPassword,

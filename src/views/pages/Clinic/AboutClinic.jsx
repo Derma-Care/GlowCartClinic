@@ -17,6 +17,7 @@ import { MainAdmin_URL } from '../../../baseUrl'
 import { showCustomToast } from '../../../Utils/Toaster'
 import { Edit2, Trash2 } from 'lucide-react'
 import { emailPattern } from '../../../Constant/Constants'
+import { http } from '../../../Utils/Interceptors'
 
 const AboutClinic = ({setShowSettingsModal}) => {
   const clinicId = localStorage.getItem('HospitalId')
@@ -112,7 +113,7 @@ const [originalDoctors, setOriginalDoctors] = useState([])
       return
     }
 
-    axios
+    http
       .get(`${MainAdmin_URL}/clinics/get/${clinicId}`)
       .then((res) => {
         const data = res.data.data || {}
@@ -291,7 +292,7 @@ const handleUpdate = async () => {
 
   setUpdateLoading(true)
  try {
-  const response = await axios.put(
+  const response = await http.put(
     `${MainAdmin_URL}/clinics/${clinicId}`,
     payload,
     { headers: { 'Content-Type': 'application/json' } }

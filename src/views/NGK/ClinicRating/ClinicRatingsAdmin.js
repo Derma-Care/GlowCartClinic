@@ -6,6 +6,7 @@ import { BASE_URL } from '../../../baseUrl'
 import { timeAgo } from '../Utills/timesAgo'
 import { COLORS, NGK_COLORS } from '../../../Constant/Themes'
 import Pagination from '../../../Utils/Pagination'
+import { http } from '../../../Utils/Interceptors'
 
 // eslint-disable-next-line react/prop-types
 export default function ClinicRatingsAdmin() {
@@ -34,7 +35,7 @@ export default function ClinicRatingsAdmin() {
       try {
         setLoading(true)
 
-        const res = await axios.get(`${BASE_URL}/ratings/${clinicId}`)
+        const res = await http.get(`${BASE_URL}/ratings/${clinicId}`)
 
         const apiData = res.data?.data
         console.log(apiData)

@@ -43,6 +43,7 @@ import { BASE_URL } from '../../baseUrl'
 import { showCustomToast } from '../../Utils/Toaster'
 import ConfirmationModal from '../../components/ConfirmationModal'
 import { ToastContainer } from 'react-toastify'
+import { http } from '../../Utils/Interceptors'
 const WidgetsDropdown = () => {
   const navigate = useNavigate()
   const today = new Date().toISOString().split('T')[0]
@@ -119,7 +120,7 @@ const WidgetsDropdown = () => {
     const fetchBookings = async () => {
       setLoading(true)
       try {
-        const res = await axios.get(`${BASE_URL}/bookings/${selectedHospital.data.clinicId}`)
+        const res = await http.get(`${BASE_URL}/bookings/${selectedHospital.data.clinicId}`)
 
         setAppointments(res.data?.data || [])
       } catch (error) {
@@ -134,7 +135,7 @@ const WidgetsDropdown = () => {
 
   const updateBookingStatus = async (bookingId, newStatus) => {
     try {
-      const res = await axios.put(`${BASE_URL}/bookings/update-status`, {
+      const res = await http.put(`${BASE_URL}/bookings/update-status`, {
         bookingId: bookingId,
         status: newStatus,
       })

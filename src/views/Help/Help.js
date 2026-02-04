@@ -7,6 +7,7 @@ import { emailPattern, mobilePattern } from '../../Constant/Constants'
 import axios from 'axios'
 import { BASE_URL, CreateClinicEnquiry } from '../../baseUrl'
 import { ToastContainer } from 'react-toastify'
+import { http } from '../../Utils/Interceptors'
 
 function Help() {
   const { selectedHospital } = useHospital()
@@ -58,7 +59,7 @@ function Help() {
   }
 
   const createClinicEnquiry = async (payload) => {
-    return axios.post(`${BASE_URL}/${CreateClinicEnquiry}`, payload, {
+    return http.post(`${BASE_URL}/${CreateClinicEnquiry}`, payload, {
       headers: {
         'Content-Type': 'application/json',
       },
