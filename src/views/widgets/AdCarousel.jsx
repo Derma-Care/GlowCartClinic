@@ -16,7 +16,7 @@ export default function AdCarousel() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const res = await http.get(`/admin/dashboard-ads`)
+        const res = await http.get(`/admin/clinic-ads`)
 
         if (res.data && res.data.length > 0) {
           const backendAds = res.data.map((item) => ({
