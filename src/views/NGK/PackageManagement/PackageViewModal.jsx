@@ -31,7 +31,24 @@ const PackageViewModal = ({ visible, data, onClose, formatMinutes }) => {
       <CModalBody className="bg-light text-dark">
         {/* Basic Details */}
         <div className="p-3 mb-4 bg-white rounded shadow-sm">
-          <h6 className="fw-bold border-bottom pb-2 mb-3">Basic Information</h6>
+          <CRow className="align-items-center mb-3">
+            {/* Left Side */}
+            <CCol xs={6}>
+              <h6 className="mb-0 fw-bold">Basic Information</h6>
+            </CCol>
+
+            {/* Right Side */}
+            <CCol xs={6} className="text-end">
+              <span style={{ color: 'var(--color-black)' }} className="fw-bold">
+                Offer Active Status :{' '}
+              </span>{' '}
+              <span
+                className={`badge ${data?.offerActive === true ? 'bg-success' : 'bg-secondary'}`}
+              >
+                {data?.offerActive === true ? 'Active' : 'Inactive'}
+              </span>
+            </CCol>
+          </CRow>
           <CRow className="gy-2">
             <CCol sm={6}>
               <p className="mb-1 fw-semibold">Procedure Name:</p>
@@ -100,6 +117,11 @@ const PackageViewModal = ({ visible, data, onClose, formatMinutes }) => {
             <CCol sm={4}>
               <span className="mb-1 fw-semibold">GST :</span>
               <span className="text-muted"> {Math.round(data.gst || 0)}%</span>
+              {/* <strong>GST %:</strong> {Math.round(data.gst || 0)} */}
+            </CCol>
+            <CCol sm={4}>
+              <span className="mb-1 fw-semibold">GST Amount:</span>
+              <span className="text-muted"> {Math.round(data.gstAmount || 0)}</span>
               {/* <strong>GST %:</strong> {Math.round(data.gst || 0)} */}
             </CCol>
             <CCol sm={4}>

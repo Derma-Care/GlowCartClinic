@@ -121,7 +121,7 @@ const ServiceViewModal = ({ visible, data, onClose, formatMinutes }) => {
               {/* <strong>GST %:</strong> {Math.round(data.gst || 0)} */}
             </CCol>
             <CCol sm={4}>
-              <span className="mb-1 fw-semibold">GST :</span>
+              <span className="mb-1 fw-semibold">Gst Amount:</span>
               <span className="text-muted"> {Math.round(data.gstAmount || 0)}</span>
               {/* <strong>GST %:</strong> {Math.round(data.gst || 0)} */}
             </CCol>

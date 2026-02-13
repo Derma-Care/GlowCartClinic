@@ -35,12 +35,17 @@ const AppHeaderDropdown = () => {
 
   // ⭐ Logout
   const handleLogoutConfirm = () => {
-    localStorage.clear()
-    sessionStorage.clear()
-    navigate('/login')
+    setShowLogoutModal(false) // close modal first
+    setTimeout(() => {
+      localStorage.clear()
+      sessionStorage.clear()
+      navigate('/login')
+    }, 300)
   }
 
-  const handleLogoutClick = () => {
+  const handleLogoutClick = (e) => {
+    e.preventDefault() // ✅ stop default behaviour
+    e.stopPropagation() // ✅ prevent dropdown auto action
     setShowLogoutModal(true)
   }
 
